@@ -1,0 +1,25 @@
+<div class="row justify-content-center mt-5 mb-5">
+  <div id="content" class="col-6">
+    <form class="form-signin" action="/validate_login" method="post">
+      <div class="form-label-group">
+        <input type="text" id="user" name="user" class="form-control" placeholder="User name" required autofocus>
+        <label for="inputEmail">User name</label>
+      </div>
+
+      <div class="form-label-group">
+        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+        <label for="password">Password</label>
+      </div>
+      <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+    </form>
+    {{#if errors}}
+    {{# each errors }}
+      <div class="col-9 alert alert-danger mt-5 ml-5" role="alert">{{ this.msg }}</div>
+    {{/each}}
+    
+    {{/if}}
+    {{#if salida}}
+      <div class="col-9 alert alert-primary mt-5 ml-5" role="alert">{{ salida }}</div>
+    {{/if}}
+  </div>
+</div>

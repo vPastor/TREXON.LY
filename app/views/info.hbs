@@ -1,0 +1,63 @@
+<!-- Start main content wrapper -->
+<div class="row justify-content-center">
+{{#if message}}
+ <div class="col-9 alert alert-danger ml-5" role="alert">{{ message }}</div>
+ {{/if}}
+ </div>
+<div id="content"><!-- Start content -->
+  <h3>Information:</h3>
+  <p>The Illumina Infinium Methylation platforms relies on two key processes. The first one is the bisulfite conversion, and the second one is the use of specific labeled antibodies.
+    Here is a brief explanation on the steps of the Infinium protocol:
+  </p>
+  <br>
+  <ul class="list-group">
+    <li class="list-group-item">
+      <strong>Bisulfite conversion</strong>: We convert 500 ng of high quality DNA (no fragmented, not contaminated with proteins, RNA, phenol,…). In this step methylated
+      			 cytosines will remain unchanged, while not methylted cytosines will convert into uracils.
+    </li>
+  </ul>
+  <center><img src="bisulfiteconversion.png"></center><br>
+  <center><img  src="bisulfiteconversion_2.png"></center>
+	<ul class="list-group">
+    <li class="list-group-item">
+			<strong>Amplification</strong>: Using random primers along with an engineer modified Phi29 DNA polymerase, we are amplifying the original DNA over 100 times, without introducing
+  						the bias that a PCR would introduce. Note that in this step, uracils coming from unmethylated cytosines will be amplified as thymines.
+		</li>
+  </ul>
+  <center><img src="amplification.png"></center><br>
+	<ul class="list-group">
+    <li class="list-group-item">
+			<strong>Fragmentation</strong>: In order to hybridize properly the DNA into the array, the bisulfit converted DNA is fragmented in a size ranging from 300nt to 500nt.
+		</li>
+  </ul>
+  <br>
+	<ul class="list-group">
+    <li class="list-group-item">
+			  <strong>Hibridization</strong>: Fragmented bisulfite DNA is hybridized on the HumanMenthylation450 bead chip, allowing specific hybridization to occur based on homology to a 50 nucleotide
+      				  sequence present in the beads. Unhybridized and non-specifically hybridized DNA are washed away by using properly formulated buffers.
+    </li>
+  </ul>
+	<center><img src="hybridization.png"></center><br>
+  <ul class="list-group">
+    <li class="list-group-item">
+			<strong>Single Base Extension</strong>: All 4 dideoxynucleotides are incorporated. ddCTP and ddGTP are labeled with biotin, while ddTTP and ddATP with 2,4-dinitrophenol (DNP). Incorporation of a single nucelotide
+    					will occur based on homology to the hibridized DNA.
+		</li>
+  </ul>
+  <center><img src="singlebaseextension.png" ></center><br>
+	<ul class="list-group">
+    <li class="list-group-item">
+				<strong>Fluorescence Labeling</strong>: Two fluorescent labeled antibodies are used. Once against biotin, witch is labeled with green fluorescence (Cy3), and a second one against DNP labeled with
+      					red fluorescence (Cy5). The use of secondary antibodies in conjunction with the fluorescently labeled ones, allows to increment the fluorescent intenisty of the beads. Unhybridized antibodies are washed away,
+      					and the beadchip is coated, to protect the incorporated fluorescence.
+    </li>
+  </ul>
+  <br>
+	<ul class="list-group">
+    <li class="list-group-item">
+				<strong>Scan</strong>: All arrays are scanned with a HiScan instrument, resulting in IDATs files that contain the intensities values of fluorescence of each bead present in the array.
+	  </li>
+  </ul>
+  <center><iframe src="http://www.youtube.com/embed/lVG04dAAyvY" allowfullscreen="" style="color: #000; padding: 3px; border: 1px solid #999; -moz-border-radius: 5px; -webkit-border-radius: 5px; -khtml-border-radius: 5px; border-radius: 5px;" width="640" height="360" frameborder="0"></iframe></center><br>
+  <center><iframe src="http://www.youtube.com/embed/V8KvG3aXtOY" allowfullscreen="" style="color: #000; padding: 3px; border: 1px solid #999; -moz-border-radius: 5px; -webkit-border-radius: 5px; -khtml-border-radius: 5px; border-radius: 5px;" width="640" height="360" frameborder="0"></iframe></center><br>
+</div><!-- End content -->

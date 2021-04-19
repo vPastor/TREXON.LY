@@ -1,0 +1,41 @@
+version: '3'
+services:
+  app:
+    image: node:15-alpine3.10
+    container_name: app_${DOCKER_NAME}
+    restart: unless-stopped
+    entrypoint: sh /scripts/init.sh
+    tty: true
+    working_dir: /app
+    volumes:
+      - ${PROJECT_PATH}:/app
+      - ${DOCKER_PATH}/node/init.sh:/scripts/init.sh
+    ports:
+      - ${PORT}:${PORT}
+    networks:
+      - app-network
+      
+  mongo:
+      image: mongo:4
+      container_name: mongo_trexonly
+      restart: unless-stopped
+      environment: 
+        - MONGO_INITDB_ROOT_USERNAME-${MONGO_ROOT_USER}
+        - MONGO_INITDB_ROOT_PASSWORD-${MONGO_ROOT_USER}
+        - MONGO_INITDB_DATABASE=${MONGO_DB}
+      ports:
+        - ${MONGO_PORT}:${MONGO_PORT}
+      volumes: 
+        - dbdata:/data/db
+      networks:
+        - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+#Volumes
+volumes:
+  dbdata:
+    driver: local
+    

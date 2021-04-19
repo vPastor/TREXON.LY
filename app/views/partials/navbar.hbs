@@ -1,0 +1,53 @@
+<div id="header">
+  <nav class="navbar navbar-custom">
+    <div id="head-web" class="container">
+      <div id="logo">
+        <a href="/"><img src="icon.png"></a>
+      </div>
+      <div id="name-web">
+        <h1>TREXON.LY</h1>
+        <h2><span style="color:green"><b>L</b></span>ook
+          <span style="color:green"><b>F</b></span>or
+          <span style="color:green"><b>H</b></span>appiness at
+          <span style="color:green"><b>W</b></span>ork</h2>
+      </div>
+    </div>
+  </nav>
+
+  <!-- As a heading -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div id="navbar">
+      <nav id="top-nav" class="navbar navbar-light">
+        <a class="nav-link" href="/">Home</a>
+        {{#if role}}
+        {{#ifc role "Admin"}}
+        <a class="nav-link" href="/index">Querys</a>
+        <a class="nav-link" href="/fichero">Insert data</a>
+        <li class="nav-item dropdown" style="list-style-type: none;">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Manage Users
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="/register">Create user</a>
+            <a class="dropdown-item" href="/delete">Delete user</a>
+            <a class="dropdown-item" href="/update">Update user</a>
+           
+          </div>
+        </li>
+        <a class="btn btn-primary" href="/logout">Logout</a>
+        {{/ifc}}
+
+        {{#ifc role "Investigator"}}
+        <a class="nav-link" href="/index">Querys</a>
+        <a class="btn btn-primary" href="/logout">Logout</a>
+        {{/ifc}}
+
+        {{else}}
+        <a class="btn btn-primary" href="/login">Login</a>
+        {{/if}}
+
+      </nav>
+    </div>
+  </nav>
+</div>

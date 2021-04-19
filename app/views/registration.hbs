@@ -1,0 +1,70 @@
+<div class="container">
+
+	<div class="row justify-content-center">
+		<div class="col-6">
+			<article class="card-body mx-auto">
+				<h4 class="card-title mt-3 text-center">Create Account</h4>
+				<form action="/create" method="POST">
+					<div class="form-group input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"> <i class="fa fa-user"></i> </span>
+						</div>
+						<input name="fullname" class="form-control" placeholder="Full name" type="text">
+					</div> <!-- form-group// -->
+					<div class="form-group input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+						</div>
+						<input name="email" class="form-control" placeholder="Email address" type="email">
+					</div> <!-- form-group// -->
+					<div class="form-group input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+						</div>
+						<input name="phone" class="form-control" placeholder="Phone number" type="text">
+					</div> <!-- form-group// -->
+					<div class="form-group input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"> <i class="fas fa-user-tag"></i> </span>
+						</div>
+						<select name="role" class="form-control">
+							<option value="Empresa">Empresa</option>
+							<option value="Fotografo">Fotografo</option>
+							<option value="Diseniador">Diseñador</option>
+							<option value="Publicista">Publicista</option>
+							<option value="Programador">Programador</option>
+						</select>
+					</div> <!-- form-group end.// -->
+					<div class="form-group input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+						</div>
+						<input name="password" class="form-control" placeholder="Create password" type="password">
+					</div> <!-- form-group// -->
+					<div class="form-group input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+						</div>
+						<input name="password2" class="form-control" placeholder="Repeat password" type="password">
+					</div> <!-- form-group// -->
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary btn-block"> Create Account </button>
+					</div> <!-- form-group// -->
+				</form>
+				{{#if errors}}
+				{{# each errors }}
+				<div class="col-9 alert alert-danger" role="alert">{{ this.msg }}</div>
+				{{/each}}
+				{{/if}}
+				{{#if message}}
+				<div class="col-6 alert alert-primary" role="alert">
+					{{ message }}
+				</div>
+				{{/if}}
+			</article>
+		</div>
+	</div>
+	<!-- card.// -->
+
+</div>
+<!--container end.//-->

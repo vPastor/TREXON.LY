@@ -1,0 +1,166 @@
+<center>
+  <div>{{ error_log }}</div>
+</center>
+<br>
+<br>
+<div id="content-query">
+  <section class="card">
+    <h3></h3>
+    <div class="card-body">
+      <form action="/annoations" method="post">
+        <div class="row">
+          <div class="col">
+            <input type="text" id="gene" name="gene" class="form-control" placeholder="Gene name *">
+          </div>
+          <div class="col">
+            <input type="text" id="ilmnid" name="ilmnid" class="form-control" placeholder="IlmnID">
+          </div>
+
+        </div>
+        <br>
+        <div class="row">
+          <div class="col">
+            <input type="text" id="chr" name="chr" class="form-control" placeholder="Chromosome">
+          </div>
+          <div class="col">
+            <input type="number" id="start_position" name="start_position" class="form-control" placeholder="Start">
+          </div>
+          <div class="col">
+            <input type="number" id="end_position" name="end_position" class="form-control" placeholder="End">
+          </div>
+
+        </div>
+        <br>
+        <div class="row">
+          <div class="col">
+            <label for="col">Relation to island: </label>
+            <br>
+            <label><input type="checkbox" name="island" value="Island">Island</label>
+            <label><input type="checkbox" name="island" value="S_Shore">S_Shore</label>
+            <label><input type="checkbox" name="island" value="S_Shelf">S_Shelf</label>
+            <label><input type="checkbox" name="island" value="N_Shelf">N_Shelf</label>
+            <label><input type="checkbox" name="island" value="N_Shore">N_Shore</label>
+            <label><input type="checkbox" name="island" value="">No island</label>
+          </div>
+        </div>
+
+        <br>
+        <div class="row">
+          <div class="col">
+            <label for="col">Gene group: </label>
+            <br>
+            <input id="group" type="checkbox" name="group" value="TSS1500">TSS1500
+            <input id="group" type="checkbox" name="group" value="Body">Body
+            <input id="group" type="checkbox" name="group" value="TSS200">TSS200
+            <input id="group" type="checkbox" name="group" value="1stExon">1stExon
+            <input id="group" type="checkbox" name="group" value="ExonBnd">ExonBnd
+            <input id="group" type="checkbox" name="group" value="5'UTR">5'UTR
+            <input id="group" type="checkbox" name="group" value="3'UTR">3'UTR
+          </div>
+        </div>
+        <br>
+        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Get Annotations</button>
+      </form>
+      <br>
+
+      {{#if messageAnno}}
+      <div class="col-6 alert alert-primary mt-5 ml-5" role="alert">
+        {{ messageAnno }}
+      </div>
+      {{/if}}
+    </div>
+  </section>
+
+  <br>
+
+  <section class="card">
+    <h3>Filter by samples </h3>
+    <div class="card-body">
+      <form class="form-group" action="/samples" method="post">
+        <div class="row">
+          <div class="col">
+            <input type="text" id="sample_name" name="sample_name" class="form-control" placeholder="Sample Name *">
+          </div>
+          <div class="col">
+            <input type="text" class="awesomplete form-control" list="list" name="investigator" id="investigator"
+              placeholder="Investigator" />
+            <datalist id="list">
+              {{#each investigators}}
+              <option>{{this}}</option>
+              {{/each}}
+            </datalist>
+          </div>
+          <div class="col">
+            <input type="text" id="project" name="project" class="awesomplete form-control" list="list2"
+              placeholder="Project">
+            <datalist id="list2">
+              {{#each projects}}
+              <option>{{this}}</option>
+              {{/each}}
+            </datalist>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col">
+            <input type="text" id="type" name="type" class="form-control awesomplete" list="list3" placeholder="Type">
+            <datalist id="list3">
+              {{#each types}}
+              <option>{{this}}</option>
+              {{/each}}
+            </datalist>
+          </div>
+          <div class="col">
+            <input type="text" id="site_primary" name="site_primary" class="form-control awesomplete" list="list4"
+              placeholder="Site Primary">
+            <datalist id="list4">
+              {{#each primaries}}
+              <option>{{this}}</option>
+              {{/each}}
+            </datalist>
+          </div>
+          <div class="col">
+            <input type="text" id="site_subtype" name="site_subtype" class="form-control awesomplete" list="list5"
+              placeholder="Site subtype">
+            <datalist id="list5">
+              {{#each subtypes}}
+              <option>{{this}}</option>
+              {{/each}}
+            </datalist>
+          </div>
+        </div>
+        <br>
+        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Get Samples</button>
+      </form>
+      <br>
+      {{#if errors}}
+      {{# each errors }}
+      <div class="col-9 alert alert-danger" role="alert">{{ this.msg }}</div>
+      {{/each}}
+      {{/if}}
+      {{#if messageSample}}
+      <div class="col-6 alert alert-primary mt-5 ml-5" role="alert">
+        {{ messageSample }}
+      </div>
+      {{/if}}
+
+    </div>
+
+  </section>
+  <br>
+
+  <section class="card">
+    <h3>Get Data</h3>
+    <form class="form-group" action="/betas" method="post">
+      <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Get data</button>
+    </form>
+    <br>
+    <div class="card-body">
+      {{#if message}}
+      <div class="col-6 alert alert-primary ml-5" role="alert">
+        {{ message }}
+      </div>
+      {{/if}}
+    </div>
+  </section>
+  <br>
