@@ -7,59 +7,21 @@ User = require('../models/userModel.js');
  * we validate the fields user and password, if the validation returns errors,
  * we redirect to the login page with an error message
  */
-exports.login = function (req, res) {
-    var user = req.body.user;
-    var password = req.body.password;
-   
-    req.checkBody('user', 'User Name is required').notEmpty();
-    req.checkBody('password', 'Invalid password').notEmpty().isLength({ min: 6 });
+exports.login = async (req, resp) => {
 
-    const errors = req.validationErrors();
-    if (errors) {
-        req.session.errors = errors;
-        res.render('login', {
-            layout: 'layout', template: 'home-template',
-            errors: errors
-        });
+    var res = await User.find(req);
+        /*, function (err, res) {
+        resp = res;
+        if (err) console.log(err)
+        console.log("LOGGIN CORRECTO");
+        //console.log(respuesta);
+        console.log(resp);
+        return resp;
+    });*/
+    return res;
 
-    }
-    else {
-        req.session.success = true;
-        var query = {
-            name: user,
-            password: password
-        };
-
-        User.find(query).exec(function (err, user) {
-            var len = user.length;
-
-            user.forEach(element => {
-                req.session.role = element.role
-            });
-
-            if (err) {
-                console.log('Error: ', err);
-                return;
-            };
-            if (len != 0) {
-                req.session.user = user;
-                role = req.session.role;
-                res.locals.role = req.session.role;
-                res.locals.user = req.session.user;
-                //console.log(role); 
-
-                res.render('info', {
-                    layout: 'layout', template: 'home-template'
-                });
-            } else {
-                res.render('login', {
-                    layout: 'layout', template: 'home-template',
-                    salida: "User not found"
-                });
-            };
-        });
-    };
 };
+
 
 /**
  * Function to delete the user and role variable session and redirect to the home
@@ -82,7 +44,7 @@ exports.logout = function (req, res) {
  * we insert in the database
  */
 exports.register = function (req, res) {
-    res.locals.role = req.session.role;
+    //res.locals.role = req.session.role;
     //errors = validate(req);
     /*if (errors) {
         req.session.errors = errors;
@@ -91,26 +53,27 @@ exports.register = function (req, res) {
         });
     }
     else {*/
-        req.session.success = true;
-        var user = new User();
-        user.name = req.body.fullname;
-        user.email = req.body.email;
-        user.phone = req.body.phone;
-        user.role = req.body.role;
-        user.password = req.body.password;
-        //create a new user object
-        user.save(function (err) {
-            if (err) {
-                res.render('registration', {
-                    layout: 'layout', template: 'home-template', message: "User altready exist"
-                });
-            } else {
-                res.render('registration', {
-                    layout: 'layout', template: 'home-template', message: "User created correctly"
-                });
-            }
-        });
-    
+    //req.session.success = true;
+    var user = new User();
+    user.name = req.body.fullname;
+    user.email = req.body.email;
+    user.phone = req.body.phone;
+    user.role = req.body.role;
+    user.password = req.body.password;
+    //create a new user object
+    user.save(function (err) {
+        if (err) {
+            res.render('registration', {
+                layout: 'layout', template: 'home-template', message: "User altready exist"
+            });
+        } else {
+            console.log(user);
+            res.render('registration', {
+                layout: 'layout', template: 'home-template', message: "User created correctly"
+            });
+        }
+    });
+
 };
 /**
  * Function that removes a user from the user's name.
