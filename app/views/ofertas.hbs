@@ -1,0 +1,25 @@
+<center>
+  <div>{{ error_log }}</div>
+</center>
+<br>
+<br>
+<div id="content-query">
+  <section class="card">
+    <h3>OFERTAS DE PROYECTOS</h3>
+    {{#if ofertas}}
+    {{# each ofertas }}
+      <div class="divoferta">
+        <h5>Nombre de la oferta: {{ this.nombre }}</h5>
+        <p>Empresa ofertante: {{ this.empresa }}</p>
+        {{#if puestos}}
+    {{# each puestos }}
+    <p>Nombre del puesto: {{this.role}} Puestos disponibles: {{this.cantidad}}</p>
+    {{/each}}
+    {{/if}}
+      </div>
+    {{/each}}
+    
+    {{/if}}
+  </section>
+    </div>  
+  <br>
