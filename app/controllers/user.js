@@ -9,7 +9,7 @@ User = require('../models/userModel.js');
  */
 exports.login = async (req, resp) => {
 
-    var res = await User.find(req);
+    var res = await User.find(req).exec();
         /*, function (err, res) {
         resp = res;
         if (err) console.log(err)

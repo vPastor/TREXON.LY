@@ -40,12 +40,12 @@ app.use(express.static(path.join(__dirname, '/app/views/images')));
 // view engine setup
 app.set('view engine', 'hbs');
 
-app.engine('hbs', hbs({
+app.engine('Handlebars', hbs({
     extname: 'hbs',
     defaultView: 'layout',
     layoutsDir: __dirname + '/app/views/layouts/',
     partialsDir: __dirname + '/app/views/partials/',
-    //handlebars: allowInsecurePrototypeAccess(hbss)
+    handlebars: allowInsecurePrototypeAccess(Handlebars)
 }));
 //  Handlebars.localsAsTemplateData(app);
 
