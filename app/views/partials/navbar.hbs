@@ -19,27 +19,37 @@
     <div id="navbar">
       <nav id="top-nav" class="navbar navbar-light">
         <a class="nav-link" href="/">Home</a>
-        {{#if role}}
-        {{#ifc role "Admin"}}
-        <a class="nav-link" href="/index">Querys</a>
+        {{#if user.role}}
+        {{#ifc user.role "Empresa"}}
+        <a class="nav-link" href="/index">Perfil</a>
         <a class="nav-link" href="/fichero">Insert data</a>
         <li class="nav-item dropdown" style="list-style-type: none;">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
-            Manage Users
+            Proyectos
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="/register">Create user</a>
-            <a class="dropdown-item" href="/delete">Delete user</a>
-            <a class="dropdown-item" href="/update">Update user</a>
-           
+            <a class="dropdown-item" href="/crearoferta">Crear Oferta</a>
+            <a class="dropdown-item" href="/ofertas">Listar Ofertas</a>           
           </div>
         </li>
         <a class="btn btn-primary" href="/logout">Logout</a>
         {{/ifc}}
 
-        {{#ifc role "Investigator"}}
-        <a class="nav-link" href="/index">Querys</a>
+        {{#ifc user.role "Fotografo"}}
+        <a class="nav-link" href="/index">Perfil</a>
+        <a class="btn btn-primary" href="/logout">Logout</a>
+        {{/ifc}}
+        {{#ifc user.role "Diseniador"}}
+        <a class="nav-link" href="/index">Perfil</a>
+        <a class="btn btn-primary" href="/logout">Logout</a>
+        {{/ifc}}
+        {{#ifc user.role "Publicista"}}
+        <a class="nav-link" href="/index">Perfil</a>
+        <a class="btn btn-primary" href="/logout">Logout</a>
+        {{/ifc}}
+        {{#ifc user.role "Programador"}}
+        <a class="nav-link" href="/index">Perfil</a>
         <a class="btn btn-primary" href="/logout">Logout</a>
         {{/ifc}}
 

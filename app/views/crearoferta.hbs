@@ -15,40 +15,32 @@
 						<div class="input-group-prepend">
 							<span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
 						</div>
-						<input name="email" class="form-control" placeholder="Email address" type="email">
+						<input name="description" class="form-control" placeholder="Descripcion del proyecto" size="60"
+							type="text">
 					</div> <!-- form-group// -->
-					<div class="form-group input-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="fotografolabel">Fotografo</span>
+						<input type="number" name="numf" class="form-control" placeholder="Numero de fotografos requeridos"
+							aria-label="Username" aria-describedby="fotografolabel">
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="diseniadorlabel">Diseñador</span>
+							<input type="number" name="numd" class="form-control" placeholder="Numero de Diseñadores requeridos"
+								aria-label="Username" aria-describedby="diseniadorlabel">
 						</div>
-						<input name="phone" class="form-control" placeholder="Phone number" type="text">
-					</div> <!-- form-group// -->
-					<div class="form-group input-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"> <i class="fas fa-user-tag"></i> </span>
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="programadorlabel">Programador</span>
+							<input type="number" name="nump" class="form-control" placeholder="Numero de Programadores requeridos"
+								aria-label="Username" aria-describedby="programadorlabel">
 						</div>
-						<select name="role" class="form-control">
-							<option value="Empresa">Empresa</option>
-							<option value="Fotografo">Fotografo</option>
-							<option value="Diseniador">Diseñador</option>
-							<option value="Publicista">Publicista</option>
-							<option value="Programador">Programador</option>
-						</select>
-					</div> <!-- form-group end.// -->
-					<div class="form-group input-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="publicistalabel">Publicista</span>
+							<input type="number" name="numpub" class="form-control" placeholder="Numero de Publicistas requeridos"
+								aria-label="Username" aria-describedby="publicistalabel">
 						</div>
-						<input name="password" class="form-control" placeholder="Create password" type="password">
-					</div> <!-- form-group// -->
-					<div class="form-group input-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-						</div>
-						<input name="password2" class="form-control" placeholder="Repeat password" type="password">
-					</div> <!-- form-group// -->
+					</div><!-- form-group end.// -->
+					
 					<div class="form-group">
-						<button type="submit" class="btn btn-primary btn-block"> Create Account </button>
+						<button type="submit" class="btn btn-primary btn-block"> Crear proyecto </button>
 					</div> <!-- form-group// -->
 				</form>
 				{{#if errors}}

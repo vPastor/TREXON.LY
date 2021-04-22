@@ -1,7 +1,9 @@
 //INICIALIZACION DE VARIABLES
-var hbss = require('hbs');
+var Handlebars = require('handlebars');
 let hbs = require('express-handlebars');
 var express = require("express");
+
+const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 //VARIABLES DE ENVIROMENT
 var dotenv = require('dotenv');
 dotenv.config();
@@ -17,10 +19,11 @@ var cookieParser = require('cookie-parser');
 let session = require('express-session');
 app.use(cookieParser());
 app.use(session(
-    {secret: 'ssshhhhht',
-    saveUninitialized: true,
-    resave: true
-}));
+    {
+        secret: 'ssshhhhht',
+        saveUninitialized: true,
+        resave: true
+    }));
 
 const port = process.env.PORT;
 var server = require("http")
@@ -37,13 +40,14 @@ app.use(express.static(path.join(__dirname, '/app/views/images')));
 // view engine setup
 app.set('view engine', 'hbs');
 
-app.engine( 'hbs', hbs( {
-  extname: 'hbs',
-  defaultView: 'layout',
-  layoutsDir: __dirname + '/app/views/layouts/',
-  partialsDir: __dirname + '/app/views/partials/'
+app.engine('hbs', hbs({
+    extname: 'hbs',
+    defaultView: 'layout',
+    layoutsDir: __dirname + '/app/views/layouts/',
+    partialsDir: __dirname + '/app/views/partials/',
+    //handlebars: allowInsecurePrototypeAccess(hbss)
 }));
-hbss.localsAsTemplateData(app);
+//  Handlebars.localsAsTemplateData(app);
 
 /*app.engine(
     'hbs',
@@ -75,9 +79,19 @@ mongoose.connect('mongodb://mongo:27017/trexonly', { useNewUrlParser: true }, (e
     if (err) console.log('ERROR NO SE HA PODIDO CONECTAR A LA BASE DE DATOS => ' + err);
     else console.log('Database online: ' + process.env.MONGO_DB);
 });
-
-
-
+Handlebars.registerHelper('ifc', function(v1, v2, options) {
+    console.log("hello?");
+    if(v1 === v2) {
+      return options.fn(this);
+    }
+    return options.inverse(this);
+  });
+  Handlebars.registerHelper('ifc', function(v1, v2, options) {
+    if(v1 === v2) {
+      return options.fn(this);
+    }
+    return options.inverse(this);
+  });
 //ESTAS DOS LINEAS NO RECUERDO
-app.use("/", router);
+
 module.exports = app;
