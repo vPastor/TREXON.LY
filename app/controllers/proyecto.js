@@ -1,4 +1,5 @@
 var mongooose = require('mongoose');
+const { nextTick } = require('process');
 var Proyecto = require("../models/Proyecto");
 
 // c) Controlador de asignaturas.js en la que aparezcan los métodos de listar, crear, 
@@ -14,12 +15,12 @@ exports.create = async (req) => {
     return res;
 };
 
-exports.list = async (req,res) => {
+exports.list = async (req,res, next) => {
     
     var proyecto = await Proyecto.find({});
-    console.log(proyecto);
-    return proyecto;
-
+    if(req.isAPI) res.json(proyecto);
+    req.proyecto=proyecto;
+    next();
 };
 exports.edit = async (req) => {
     var res = await req.save((err, res) => {

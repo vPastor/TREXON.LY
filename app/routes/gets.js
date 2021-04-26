@@ -5,7 +5,7 @@ var inciCtrl = require('../controllers/proyecto');
 var bodyParser = require('body-parser');
 var app = require("../../index");
 const multer = require('multer');
-const sharp = require('sharp');
+
 var upload = multer({
     dest: 'public/uploads',
     limits: {
@@ -109,7 +109,10 @@ router.post("/validate_login", async function (req, res) {
 }
 );
 
-
+router.get('/ofertas', proyectoCtrl.list);
+router.get('/ofertas', function (req, res, next) {
+    res.render('ofertas', { layout: 'layout', template: 'home-template', proyecto:req.proyecto });
+})
 
 //OFERTAS
 
@@ -127,6 +130,7 @@ router.get('/ofertas', async function (req, res) {
     var lista_ofertas = await proyectoCtrl.list();
     console.log("AQUI VIENE LA LISTA");
     lista_ofertas.forEach(function (currentValue, index, array) {
+        console.log(index)
         ofertitas[index] = {
             empresario: currentValue.empresario,
             name: currentValue.name,
@@ -146,7 +150,8 @@ router.get('/ofertas', async function (req, res) {
         }
     });
     res.locals.ofertas = ofertitas;
-    res.render('ofertas', { layout: 'layout', template: 'home-template' });
+    console.log(res.locals.ofertas[0].empresario)
+    res.render('ofertas', { layout: 'layout', template: 'home-template', test:ofertitas });
     // }
 });
 

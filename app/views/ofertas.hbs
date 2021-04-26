@@ -7,9 +7,9 @@
   <section class="card">
     <h3><b>OFERTAS DE PROYECTOS</b></h3>
     {{user.name}}
+    {{test}}
     {{#if ofertas}}
     {{#each ofertas }}
-
     <div class="divoferta">
       <h5>Nombre de la oferta: {{ this.name }}</h5>
       <p>Empresa ofertante: {{ this.empresario }}</p>
@@ -19,7 +19,7 @@
       <p>Nombre del puesto:<b>PROGRAMADOR</b> Puestos disponibles: {{this.programadores}}</p>
       <p>Nombre del puesto:<b>PUBLICISTA</b> Puestos disponibles: {{this.publicistas}}</p>
 
-      {{#ifcomp "alberto" this.empresario}}
+      {{#ifcomp user.name this.empresario}}
       <button class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit">EDIT   <i class="fa fa-edit"></i></button>
       {{/ifcomp}}
     </div>
