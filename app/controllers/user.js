@@ -54,22 +54,16 @@ exports.register = function (req, res) {
     }
     else {*/
     //req.session.success = true;
-    var user = new User();
-    user.name = req.body.fullname;
-    user.email = req.body.email;
-    user.phone = req.body.phone;
-    user.role = req.body.role;
-    user.password = req.body.password;
+    
     //create a new user object
-    user.save(function (err) {
+    req.save(function (err) {
         if (err) {
             res.render('registration', {
                 layout: 'layout', template: 'home-template', message: "User altready exist"
             });
         } else {
-            console.log(user);
-            res.render('registration', {
-                layout: 'layout', template: 'home-template', message: "User created correctly"
+            res.render('login', {
+                layout: 'layout', template: 'home-template'
             });
         }
     });

@@ -32,11 +32,9 @@ exports.edit = async (req) => {
 };
 
 exports.delete = async (req) => {
-    var res = await req.deleteOne((err, res) => {
-        if (err) console.log(err);
-        console.log("BORRADO DE LA DB");
+    var res = await Proyecto.deleteOne(req);
         
-    });
+    
     return res;
 
 };

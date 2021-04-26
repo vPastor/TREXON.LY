@@ -4,8 +4,31 @@ var chatCtrl = require('../controllers/chat');
 var inciCtrl = require('../controllers/proyecto');
 var bodyParser = require('body-parser');
 var app = require("../../index");
+const multer = require('multer');
+const sharp = require('sharp');
+var upload = multer({
+    dest: 'public/uploads',
+    limits: {
+        fileSize: 3000000
+    },
+    fileFilter(req, file, cb) {
+        if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+            return cb(new Error('Please upload an image'))
+        }
+        cb(undefined, true)
+    }
+});
+/*router.use( function (req, res, next) {
+    if(req.session.user)
+    {
+        next();
+    }
+    else{
+        res.render('login', { layout: 'layout', template: 'home-template' });
+    }
+    
+  });*/
 router.get("/", function (req, res, next) {
-    console.log("Hola llega aqui!");
     res.render('login', { layout: 'layout', template: 'home-template' });
 });
 router.get('/login', function (req, res) {
@@ -60,7 +83,6 @@ router.post("/validate_login", async function (req, res) {
         "password": password
     };
     var resp = await userCtrl.login(query);
-    console.log(resp);
     if (resp == false) {
         res.render('login', {
             layout: 'layout', template: 'home-template',
@@ -68,8 +90,6 @@ router.post("/validate_login", async function (req, res) {
         });
     }
     else {
-        console.log("ahora viene el user de respuesta /n");
-        console.log(resp[0].name);
         var user = {
             name: resp[0].name,
             email: resp[0].email,
@@ -77,10 +97,12 @@ router.post("/validate_login", async function (req, res) {
             role: resp[0].role,
             location: "Barcelona"
         }
-console.log(resp[0])
+        //app.locals.user = user;
+        req.session.user = user;
+        res.locals.user = user;
         res.render('index', {
-            layout: 'layouts/layout', template: 'home-template',
-            user: resp[0], nombre: "hola"
+            layout: 'layout', template: 'home-template',
+            user: user, nombre: "hola"
         });
     }
 
@@ -99,27 +121,56 @@ router.get('/ofertas', async function (req, res) {
             message: "Session is already started "
         });
     } else {*/
-    
+    var ofertitas = [];
     res.locals.user = req.session.user;
-    res.locals.ofertas = await proyectoCtrl.list();
+    //proyectoCtrl.delete({        name: "Mercadona"    });
+    var lista_ofertas = await proyectoCtrl.list();
+    console.log("AQUI VIENE LA LISTA");
+    lista_ofertas.forEach(function (currentValue, index, array) {
+        ofertitas[index] = {
+            empresario: currentValue.empresario,
+            name: currentValue.name,
+            descripcion: currentValue.descripcion,
+            /*puestos: {
+                fotografos: currentValue.puestos.fotografos,
+                diseniadores: currentValue.puestos.diseniadores,
+                programadores: currentValue.puestos.programadores,
+                publicistas: currentValue.puestos.publicistas,
+            },*/
+            fotografos: currentValue.fotografos,
+            diseniadores: currentValue.diseniadores,
+            programadores: currentValue.programadores,
+            publicistas: currentValue.publicistas,
+            estado: currentValue.estado,
+
+        }
+    });
+    res.locals.ofertas = ofertitas;
     res.render('ofertas', { layout: 'layout', template: 'home-template' });
     // }
 });
 
 
-
 var proyectoCtrl = require("../controllers/proyecto.js");
 router.post("/crearoferta", async function (req, res) {
     res.locals.user = req.session.user;
+    console.log("el user");
+    console.log(req.session.user);
     var query = {
         empresario: req.session.user.name,
-    name: req.body.fullname,
-    descripcion: req.body.description,
-    fotografos: req.body.numf,
-    diseniadores: req.body.numd,
-    programadores: req.body.nump,
-    publicistas: req.body.numpub,
-    estado: "abierto"
+        name: req.body.fullname,
+        descripcion: req.body.description,
+        puestos: {
+            "fotografos": req.body.numf,
+            "diseniadores": req.body.numd,
+            "programadores": req.body.nump,
+            "publicistas": req.body.numpub
+        },
+        fotografos: req.body.numf,
+        diseniadores: req.body.numd,
+        programadores: req.body.nump,
+        publicistas: req.body.numpub,
+        estado: "abierto"
     };
     var resp = await proyectoCtrl.create(query);
     console.log(resp);
@@ -140,13 +191,32 @@ router.post("/crearoferta", async function (req, res) {
 }
 );
 
-
+router.get('/logout', function (req, res) {
+    delete req.session.user;
+    res.render('login', {
+        layout: 'layout', template: 'home-template'
+    });
+});
 
 
 
 
 //Create a route for create new user
-router.route("/create")
-    .post(userCtrl.register);
+router.post("/create", async function (req, res) {
+    var usertocreate = {
+        name: req.body.fullname,
+        email: req.body.email,
+        phone: req.body.phone,
+        role: req.body.role,
+        password: req.body.password,
+        location: req.body.location,
+        //hay que hacer la imagen importandola y guardandola en public
+        //si nos flipamos, podemos pedir el CV, y poder acceder a el desde la vista
+        //tambien importar los proyectos
 
+    }
+    var resp = await userCtrl.register(usertocreate);
+    console.log(resp);
+
+});
 module.exports = router;
