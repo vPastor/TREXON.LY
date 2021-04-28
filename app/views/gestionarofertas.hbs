@@ -5,20 +5,23 @@
 <br>
 <div id="content-query">
   <section class="card">
-    <h3><b>OFERTAS DE PROYECTOS</b></h3>
+    <h3><b>GESTION DE PROYECTOS</b></h3>
     {{#if ofertas}}
     {{#each ofertas }}
     <div class="divoferta">
       <h5>Nombre de la oferta: {{ this.name }}</h5>
-      <p>Empresa ofertante: {{ this.empresario }}</p>
       <p>Descripcion : {{this.descripcion}}</p>
       <p>Nombre del puesto:<b>FOTOGRAFO</b> Puestos disponibles: {{this.fotografos}}</p>
       <p>Nombre del puesto:<b>DISEÑADOR</b> Puestos disponibles: {{this.diseniadores}}</p>
       <p>Nombre del puesto:<b>PROGRAMADOR</b> Puestos disponibles: {{this.programadores}}</p>
       <p>Nombre del puesto:<b>PUBLICISTA</b> Puestos disponibles: {{this.publicistas}}</p>
+      <form method="get" action="/editarproyecto/{{this.name}}">
+        <button class="btn btn-success btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top"
+          title="Edit">EDIT <i class="fa fa-edit"></i></button>
+      </form>
+
     </div>
     {{/each}}
-
     {{/if}}
   </section>
 </div>

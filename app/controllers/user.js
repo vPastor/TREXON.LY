@@ -7,9 +7,24 @@ User = require('../models/userModel.js');
  * we validate the fields user and password, if the validation returns errors,
  * we redirect to the login page with an error message
  */
-exports.login = async (req, resp) => {
+exports.login = async (req, res, next) => {
 
-    var res = await User.find(req).exec();
+    var name = req.body.user;
+    var password = req.body.password;
+    var query = {
+        "name": name,
+        "password": password
+    };
+
+        
+    var resp = await User.find(query);
+    var user = {
+        name: resp[0].name,
+        email: resp[0].email,
+        phone: resp[0].phone,
+        role: resp[0].role,
+        location: "Barcelona"
+    }
         /*, function (err, res) {
         resp = res;
         if (err) console.log(err)
@@ -18,7 +33,8 @@ exports.login = async (req, resp) => {
         console.log(resp);
         return resp;
     });*/
-    return res;
+    req.user= user;
+    next();
 
 };
 
@@ -54,17 +70,27 @@ exports.register = function (req, res) {
     }
     else {*/
     //req.session.success = true;
-    
+    var usertocreate = {
+        name: req.body.fullname,
+        email: req.body.email,
+        phone: req.body.phone,
+        role: req.body.role,
+        password: req.body.password,
+        location: req.body.location,
+        //hay que hacer la imagen importandola y guardandola en public
+        //si nos flipamos, podemos pedir el CV, y poder acceder a el desde la vista
+        //tambien importar los proyectos
+
+    }
+
     //create a new user object
-    req.save(function (err) {
+    usertocreate.save(function (err) {
         if (err) {
             res.render('registration', {
                 layout: 'layout', template: 'home-template', message: "User altready exist"
             });
         } else {
-            res.render('login', {
-                layout: 'layout', template: 'home-template'
-            });
+            next();
         }
     });
 
