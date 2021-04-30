@@ -59,7 +59,7 @@ exports.logout = function (req, res) {
  * if the validation is correct we create a new user object and the 
  * we insert in the database
  */
-exports.register = function (req, res) {
+exports.register = function (req, res, next) {
     //res.locals.role = req.session.role;
     //errors = validate(req);
     /*if (errors) {
@@ -70,18 +70,20 @@ exports.register = function (req, res) {
     }
     else {*/
     //req.session.success = true;
-    var usertocreate = {
-        name: req.body.fullname,
-        email: req.body.email,
-        phone: req.body.phone,
-        role: req.body.role,
-        password: req.body.password,
-        location: req.body.location,
+
+    var usertocreate = new User();
+    
+    usertocreate.name= req.body.fullname,
+    usertocreate.email= req.body.email,
+    usertocreate.phone= req.body.phone,
+    usertocreate.role= req.body.role,
+    usertocreate.password= req.body.password,
+    usertocreate.location= "Barcelona",
         //hay que hacer la imagen importandola y guardandola en public
         //si nos flipamos, podemos pedir el CV, y poder acceder a el desde la vista
         //tambien importar los proyectos
 
-    }
+    
 
     //create a new user object
     usertocreate.save(function (err) {

@@ -15,32 +15,29 @@
 						<div class="input-group-prepend">
 							<span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
 						</div>
-						<input name="description" class="form-control" placeholder="Descripcion del proyecto" size="60"
+						<input name="descripcion" class="form-control" placeholder="Descripcion de la oferta" size="60"
 							type="text">
+					</div> <!-- form-group// --><select name="role" class="form-control">
+						<option value="Empresa">Empresa</option>
+						<option value="Fotografo">Fotografo</option>
+						<option value="Diseniador">Diseñador</option>
+						<option value="Publicista">Publicista</option>
+						<option value="Programador">Programador</option>
+					</select>
+					<div class="form-group input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"> <i class="fa fa-user"></i> </span>
+						</div>
+						<input name="experiencia" class="form-control" placeholder="Experiencia" type="text">
 					</div> <!-- form-group// -->
-					<div class="input-group mb-3">
-						<span class="input-group-text" id="fotografolabel">Fotografo</span>
-						<input type="number" name="numf" class="form-control" placeholder="Numero de fotografos requeridos"
-							aria-label="Username" aria-describedby="fotografolabel">
-						<div class="input-group mb-3">
-							<span class="input-group-text" id="diseniadorlabel">Diseñador</span>
-							<input type="number" name="numd" class="form-control" placeholder="Numero de Diseñadores requeridos"
-								aria-label="Username" aria-describedby="diseniadorlabel">
+					<div class="form-group input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"> <i class="fa fa-user"></i> </span>
 						</div>
-						<div class="input-group mb-3">
-							<span class="input-group-text" id="programadorlabel">Programador</span>
-							<input type="number" name="nump" class="form-control" placeholder="Numero de Programadores requeridos"
-								aria-label="Username" aria-describedby="programadorlabel">
-						</div>
-						<div class="input-group mb-3">
-							<span class="input-group-text" id="publicistalabel">Publicista</span>
-							<input type="number" name="numpub" class="form-control" placeholder="Numero de Publicistas requeridos"
-								aria-label="Username" aria-describedby="publicistalabel">
-						</div>
-					</div><!-- form-group end.// -->
-					
+						<input name="sueldo" class="form-control" placeholder="Sueldo" type="text">
+					</div> <!-- form-group// -->
 					<div class="form-group">
-						<button type="submit" class="btn btn-primary btn-block"> Crear proyecto </button>
+						<button type="submit" class="btn btn-primary btn-block"> Crear Oferta </button>
 					</div> <!-- form-group// -->
 				</form>
 				{{#if errors}}
