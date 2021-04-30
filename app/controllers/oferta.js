@@ -6,6 +6,7 @@ var Proyecto = require("../models/Proyecto");
 // editar y eliminar así como la conexión al correspondiente modelo con Mongoose. (4p)
 exports.create = async (req, res, next) => {
     res.locals.user = req.session.user;
+    var p_id = req.session.proyecto.proyecto_id
     console.log("el user");
     console.log(req.session.user);
     var query = {

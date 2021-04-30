@@ -2,7 +2,7 @@
 var Handlebars = require('handlebars');
 let hbs = require('express-handlebars');
 var express = require("express");
-
+var autoIncrement = require('mongoose-auto-increment');
 //VARIABLES DE ENVIROMENT
 var dotenv = require('dotenv');
 dotenv.config();
@@ -91,7 +91,7 @@ app.use('/api', apis);
 //CONECTAR A LA BASE DE DATOS
 var mongoose = require("mongoose");
 //mongoose.connect('mongodb://devroot:devroot@mongo/chat?authMechanism=SCRAM-SHA-1');
-mongoose.connect('mongodb://mongo:27017/trexonly', { useNewUrlParser: true }, (err, res) => {
+ mongoose.connect('mongodb://mongo:27017/trexonly', { useNewUrlParser: true }, (err, res) => {
   if (err) console.log('ERROR NO SE HA PODIDO CONECTAR A LA BASE DE DATOS => ' + err);
   else console.log('Database online: ' + process.env.MONGO_DB);
 });
