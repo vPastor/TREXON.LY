@@ -6,8 +6,8 @@
 <div id="content-query">
   <section class="card">
     <h3><b>PROYECTOS</b></h3>
-    {{#if ofertas}}
-    {{#each ofertas }}
+    {{#if proyectos}}
+    {{#each proyectos }}
     <div class="divoferta">
       <h5>Nombre de la Proyecto: {{ this.nombre_proyecto }}</h5>
       <p>Empresa ofertante: {{ this.nombre_empresa }}</p>
@@ -20,11 +20,12 @@
         <button class="btn btn-success btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top"
           title="Edit">Ver ofertas <i class="fa fa-edit"></i></button>
       </form>
-    </div>
-    <form method="get" action="/gestionarofertas/{{this.proyecto_id}}">
+          <form method="get" action="/gestionarofertas/{{this.proyecto_id}}">
       <button class="btn btn-success btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top"
         title="Edit">Gestionar ofertas <i class="fa fa-edit"></i></button>
     </form>
+    
+
 </div>
 {{/each}}
 

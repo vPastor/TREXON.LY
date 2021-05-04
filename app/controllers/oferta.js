@@ -1,28 +1,35 @@
 var mongooose = require('mongoose');
 const { nextTick } = require('process');
-var Proyecto = require("../models/Proyecto");
+var Oferta = require("../models/Oferta");
 
 // c) Controlador de asignaturas.js en la que aparezcan los métodos de listar, crear, 
 // editar y eliminar así como la conexión al correspondiente modelo con Mongoose. (4p)
 exports.create = async (req, res, next) => {
     res.locals.user = req.session.user;
-    var p_id = req.session.proyecto.proyecto_id
+    res.locals.proyecto = req.session.proyecto;
+    var p_id = req.session.proyecto.proyecto_id;
+    var p_nombre = req.session.proyecto.nombre_proyecto;
     console.log("el user");
     console.log(req.session.user);
     var query = {
         nombre_empresa: req.session.user.name,
-        nombre_proyecto: req.body.fullname,
-        descripcion: req.body.description,
-        proyecto_id: req.session.user.name+req.body.fullname,
+        nombre_proyecto: p_nombre,
+        role: req.body.role,
+        exexperiencia: req.body.exexperiencia,
+        sueldo: req.body.sueldo,
+        descripcion: req.body.descripcion,
+        proyecto_id: p_id,
         estado: "abierto",
+        aplicados: []
     };    
-    var proyecto = new Proyecto(query);
-    var res = await proyecto.save((err, res) => {
+    var oferta = new Oferta(query);
+    req.oferta = oferta;
+    var res = await oferta.save((err, res) => {
         if (err) {
             console.log(err);
             res.render('crearoferta', {
                 layout: 'layout', template: 'home-template',
-                salida: "No se ha podido crear correctamente el proyecto, intente de nuevo"
+                salida: "No se ha podido crear correctamente la oferta, intente de nuevo"
             });
         }
         else {
@@ -42,8 +49,8 @@ exports.list = async (req, res, next) => {
     //console.log("AQUI VIENE LA LISTA");
     /**/
     //res.locals.ofertas = ofertitas;
-    var proyecto = await Proyecto.find({});
-    proyecto.forEach(function (currentValue, index, array) {
+    var oferta = await Oferta.find({});
+    oferta.forEach(function (currentValue, index, array) {
         console.log(index)
         ofertitas[index] = {
             nombre_empresa: currentValue.nombre_empresa,
@@ -53,8 +60,8 @@ exports.list = async (req, res, next) => {
             proyecto_id: currentValue.proyecto_id
         }
     });
-    req.proyecto = ofertitas;
-    console.log(proyecto);
+    req.ofertas = ofertitas;
+    console.log(oferta);
     //if(req.isAPI) res.json(proyecto)
     next();
 };
@@ -90,15 +97,17 @@ exports.findOne = async (req, res, next) => {
 exports.listproyecto = async (req, res, next) => {
     var ofertitas = [];
     res.locals.user = req.session.user;
+    req.proyecto = req.session.proyecto;
     var proyectoid = req.params.ernombre;
+    console.log("prouecyto id");
+    console.log(proyectoid);
     //proyectoCtrl.delete({        name: "Mercadona"    });
     //var lista_ofertas = await proyectoCtrl.list();
     //console.log("AQUI VIENE LA LISTA");
     /**/
     //res.locals.ofertas = ofertitas;
-    var proyecto = await Proyecto.find({ proyecto_id: proyectoid });
-    proyecto.forEach(function (currentValue, index, array) {
-        console.log(index)
+    var oferta = await Oferta.find({ proyecto_id: proyectoid });
+    oferta.forEach(function (currentValue, index, array) {
         ofertitas[index] = {
             nombre_empresa: currentValue.nombre_empresa,
             nombre_proyecto: currentValue.nombre_proyecto,
@@ -110,8 +119,9 @@ exports.listproyecto = async (req, res, next) => {
             proyecto_id: currentValue.proyecto_id
         }
     });
-    req.proyecto = ofertitas;
-    console.log(proyecto);
+    console.log("Lo que viene de la base de datos "),
+    console.log(ofertitas);
+    req.ofertas = ofertitas;
     //if(req.isAPI) res.json(proyecto)
     next();
 };

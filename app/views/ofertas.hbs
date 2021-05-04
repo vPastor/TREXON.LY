@@ -9,8 +9,8 @@
     {{#if ofertas}}
     {{#each ofertas }}
     <div class="divoferta">
-      <h5>Nombre de la oferta: {{ this.name }}</h5>
-      <p>Empresa ofertante: {{ this.empresario }}</p>
+      <h5>Nombre de la oferta: {{ this.nombre_oferta }}</h5>
+      <p>Empresa ofertante: {{ this.nombre_empresa }}</p>
       <p>Descripcion : {{this.descripcion}}</p>
       <p>Experiencia : {{this.experiencia}}</p>
       <p>Sueldo : {{this.sueldo}}</p>
@@ -24,7 +24,12 @@
       </form>
     </div>
     {{/each}}
-
+    {{else}}
+    <h6>Gestiona tus ofertas</h6>
+    <form method="get" action="/gestionarproyectos">
+      <button class="btn btn-success btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top"
+        title="Edit">Gestionar <i class="fa fa-edit"></i></button>
+    </form>
     {{/if}}
   </section>
 </div>

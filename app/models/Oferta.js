@@ -9,6 +9,7 @@ var ofertaSchema = new Schema({
     experiencia: {type: String},
     sueldo: {type: String},
     descripcion: { type: String},
-    estado: { type: String}
+    estado: { type: String},
+    aplicados: [String]
  });
  module.exports = mongoose.model("Oferta", ofertaSchema);

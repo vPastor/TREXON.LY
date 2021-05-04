@@ -10,9 +10,9 @@ exports.create = async (req, res, next) => {
     console.log(req.session.user);
     var query = {
         nombre_empresa: req.session.user.name,
-        nombre_proyecto: req.body.fullname,
-        descripcion: req.body.description,
-        proyecto_id: req.session.user.name+req.body.fullname,
+        nombre_proyecto: req.body.nombre_proyecto,
+        descripcion: req.body.descripcion,
+        proyecto_id: req.session.user.name+req.body.nombre_proyecto,
         estado: "abierto",
     };    
     var proyecto = new Proyecto(query);
@@ -27,7 +27,9 @@ exports.create = async (req, res, next) => {
         else {
             console.log("INSERTADO EN LA DB");
             console.log(res);
+            req.proyecto = proyecto;
             next();
+            
         }
 
     });
@@ -94,7 +96,6 @@ exports.listOwn = async (req, res, next) => {
     //res.locals.ofertas = ofertitas;
     var proyecto = await Proyecto.find({ nombre_empresa: req.session.user.name });
     proyecto.forEach(function (currentValue, index, array) {
-        console.log(index)
         ofertitas[index] = {
             nombre_empresa: currentValue.nombre_empresa,
             nombre_proyecto: currentValue.nombre_proyecto,

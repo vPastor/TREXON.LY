@@ -73,6 +73,16 @@ router.post("/validate_login", function (req, res, next) {
     });
 });
 
+
+
+router.get('/logout', function (req, res) {
+    delete req.session.user;
+    res.render('login', {
+        layout: 'layout', template: 'home-template'
+    });
+});
+
+
 //PROYECTOS
 
 var proyectoCtrl = require("../controllers/proyecto.js");
@@ -99,6 +109,7 @@ router.get('/proyectos', function (req, res, next) {
 });
 
 router.get("/crearproyecto", function (req, res, next) {
+    res.locals.user =req.session.user
     res.render('crearproyecto', {
         layout: 'layout', template: 'home-template'
     });
@@ -131,15 +142,14 @@ router.get('/gestionarofertas/:ernombre', function (req, res, next) {
     res.render('gestionarofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas, proyecto: req.proyecto });
 });
 
-
-
-
-router.get('/logout', function (req, res) {
-    delete req.session.user;
-    res.render('login', {
-        layout: 'layout', template: 'home-template'
+router.post("/crearoferta", ofertaCtrl.create
+);
+router.post("/crearoferta", function (req, res, next) {
+    res.render('gestionarofertas', {
+        layout: 'layout', template: 'home-template', ofertas: req.oferta, proyecto: req.proyecto
     });
-});
+}
+);
 
 
 
