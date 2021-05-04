@@ -59,16 +59,16 @@ exports.list = async (req, res, next) => {
 };
 exports.findOne = async (req, res, next) => {
 
-    var nombre_oferta = req.params.ernombre;
+    var proyectoid = req.params.ernombre;
     res.locals.user = req.session.user;
-    console.log("nombre oferta");
-    console.log(nombre_proyecto);
+    console.log(" id proyecto");
+    console.log(proyectoid);
     //proyectoCtrl.delete({        name: "Mercadona"    });
     //var lista_ofertas = await proyectoCtrl.list();
     //console.log("AQUI VIENE LA LISTA");
     /**/
     //res.locals.ofertas = ofertitas;
-    var proyecto = await Proyecto.findOne({ nombre_proyecto: nombre_oferta });
+    var proyecto = await Proyecto.findOne({ proyecto_id: proyectoid });
     console.log(proyecto);
     var ofertitas = {
         proyecto_id: proyecto.proyecto_id,
@@ -108,6 +108,8 @@ exports.listOwn = async (req, res, next) => {
     //if(req.isAPI) res.json(proyecto)
     next();
 };
+
+
 exports.edit = async (req) => {
     var res = await req.save((err, res) => {
         if (err) console.log(err);

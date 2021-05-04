@@ -1,0 +1,31 @@
+<center>
+  <div>{{ error_log }}</div>
+</center>
+<br>
+<br>
+<div id="content-query">
+  <section class="card">
+    <h3><b>PROYECTOS</b></h3>
+    {{#if proyectos}}
+    {{#each proyectos }}
+    <div class="divoferta">
+      <h5>Nombre de la Proyecto: {{ this.nombre_proyecto }}</h5>
+      <p>Empresa ofertante: {{ this.nombre_empresa }}</p>
+      <p>Descripcion : {{this.descripcion}}</p>
+      <form method="get" action="/verofertas/{{this.proyecto_id}}">
+        <button class="btn btn-success btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top"
+          title="Edit">Ver ofertas <i class="fa fa-edit"></i></button>
+      </form>
+    </div>
+    {{/each}}
+    {{else}}
+        <h6>Crea tu proyecto</h6>
+        <form method="get" action="/crearproyecto">
+        <button class="btn btn-success btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top"
+          title="Edit">Crear  <i class="fa fa-edit"></i></button>
+      </form>
+    {{/if}}
+    
+  </section>
+</div>
+<br>

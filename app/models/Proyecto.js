@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var proyectoSchema = new Schema({
-    proyecto_id: {type: Number,unique: true},
+    proyecto_id: {type: String,unique: true},
     nombre_empresa: { type: String},
     nombre_proyecto: { type: String },
     descripcion: { type: String},

@@ -72,13 +72,44 @@ exports.findOne = async (req, res, next) => {
     var proyecto = await Proyecto.findOne({ nombre_proyecto: nombre_oferta });
     console.log(proyecto);
     var ofertitas = {
-        proyecto_id: proyecto.proyecto_id,
-        nombre_empresa: proyecto.empresario,
-        nombre_proyecto: proyecto.name,
+        nombre_empresa: proyecto.nombre_empresa,
+        nombre_proyecto: proyecto.nombre_proyecto,
+        nombre_oferta: proyecto.nombre_oferta,
         descripcion: proyecto.descripcion,
         estado: proyecto.estado,
+        role: proyecto.role,
+        experiencia: proyecto.experiencia,
+        proyecto_id: proyecto.proyecto_id
     };
 
+    req.proyecto = ofertitas;
+    console.log(proyecto);
+    //if(req.isAPI) res.json(proyecto)
+    next();
+};
+exports.listproyecto = async (req, res, next) => {
+    var ofertitas = [];
+    res.locals.user = req.session.user;
+    var proyectoid = req.params.ernombre;
+    //proyectoCtrl.delete({        name: "Mercadona"    });
+    //var lista_ofertas = await proyectoCtrl.list();
+    //console.log("AQUI VIENE LA LISTA");
+    /**/
+    //res.locals.ofertas = ofertitas;
+    var proyecto = await Proyecto.find({ proyecto_id: proyectoid });
+    proyecto.forEach(function (currentValue, index, array) {
+        console.log(index)
+        ofertitas[index] = {
+            nombre_empresa: currentValue.nombre_empresa,
+            nombre_proyecto: currentValue.nombre_proyecto,
+            nombre_oferta: currentValue.nombre_oferta,
+            descripcion: currentValue.descripcion,
+            estado: currentValue.estado,
+            role: currentValue.role,
+            experiencia: currentValue.experiencia,
+            proyecto_id: currentValue.proyecto_id
+        }
+    });
     req.proyecto = ofertitas;
     console.log(proyecto);
     //if(req.isAPI) res.json(proyecto)
