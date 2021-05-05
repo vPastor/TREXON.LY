@@ -1,7 +1,9 @@
 var mongooose = require('mongoose');
 const { nextTick } = require('process');
 var Oferta = require("../models/Oferta");
-
+var Proyecto = require("../models/Proyecto");
+var bodyParser = require('body-parser');
+var contador = 0;
 // c) Controlador de asignaturas.js en la que aparezcan los métodos de listar, crear, 
 // editar y eliminar así como la conexión al correspondiente modelo con Mongoose. (4p)
 exports.create = async (req, res, next) => {
@@ -98,14 +100,17 @@ exports.listproyecto = async (req, res, next) => {
     var ofertitas = [];
     res.locals.user = req.session.user;
     req.proyecto = req.session.proyecto;
-    var proyectoid = req.params.ernombre;
+    var proyectoid = req.params.proyectoid;
     console.log("prouecyto id");
     console.log(proyectoid);
+
     //proyectoCtrl.delete({        name: "Mercadona"    });
     //var lista_ofertas = await proyectoCtrl.list();
     //console.log("AQUI VIENE LA LISTA");
     /**/
     //res.locals.ofertas = ofertitas;
+    //proyectoid = "PrinterestProyecto de prueba";
+    var proyecto = await Proyecto.find({ proyecto_id: proyectoid });
     var oferta = await Oferta.find({ proyecto_id: proyectoid });
     oferta.forEach(function (currentValue, index, array) {
         ofertitas[index] = {

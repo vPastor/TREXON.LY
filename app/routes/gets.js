@@ -17,7 +17,7 @@ var upload = multer({
         cb(undefined, true)
     }
 });
-/*router.use( function (req, res, next) {
+/*routers.use( function (req, res, next) {
     if(req.session.user)
     {
         next();
@@ -137,10 +137,18 @@ router.get('/verofertas/:ernombre', ofertaCtrl.listproyecto);
 router.get('/verofertas/:ernombre', function (req, res, next) {
     res.render('ofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas });
 });
-router.get('/gestionarofertas/:ernombre', ofertaCtrl.listproyecto);
-router.get('/gestionarofertas/:ernombre', function (req, res, next) {
+router.get('/gestionarofertas/:proyectoid', ofertaCtrl.listproyecto);
+router.get('/gestionarofertas/:proyectoid', function (req, res, next) {
     res.render('gestionarofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas, proyecto: req.proyecto });
 });
+
+router.get("/crearoferta", function (req, res, next) {
+    
+    res.render('crearoferta', {
+        layout: 'layout', template: 'home-template', proyecto: req.proyecto
+    });
+}
+);
 
 router.post("/crearoferta", ofertaCtrl.create
 );
