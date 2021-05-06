@@ -7,6 +7,7 @@ var contador = 0;
 // c) Controlador de asignaturas.js en la que aparezcan los métodos de listar, crear, 
 // editar y eliminar así como la conexión al correspondiente modelo con Mongoose. (4p)
 exports.create = async (req, res, next) => {
+    console.log("create");
     res.locals.user = req.session.user;
     res.locals.proyecto = req.session.proyecto;
     var p_id = req.session.proyecto.proyecto_id;
@@ -45,6 +46,7 @@ exports.create = async (req, res, next) => {
 
 exports.list = async (req, res, next) => {
     var ofertitas = [];
+    console.log("list");
     res.locals.user = req.session.user;
     //proyectoCtrl.delete({        name: "Mercadona"    });
     //var lista_ofertas = await proyectoCtrl.list();
@@ -68,7 +70,7 @@ exports.list = async (req, res, next) => {
     next();
 };
 exports.findOne = async (req, res, next) => {
-
+    console.log("find one");
     var nombre_oferta = req.params.ernombre;
     res.locals.user = req.session.user;
     console.log("nombre oferta");
@@ -97,9 +99,10 @@ exports.findOne = async (req, res, next) => {
     next();
 };
 exports.listproyecto = async (req, res, next) => {
+    console.log("list proyecto");
     var ofertitas = [];
     res.locals.user = req.session.user;
-    req.proyecto = req.session.proyecto;
+    
     var proyectoid = req.params.proyectoid;
     console.log("prouecyto id");
     console.log(proyectoid);
@@ -111,7 +114,19 @@ exports.listproyecto = async (req, res, next) => {
     //res.locals.ofertas = ofertitas;
     //proyectoid = "PrinterestProyecto de prueba";
     var proyecto = await Proyecto.find({ proyecto_id: proyectoid });
-    var oferta = await Oferta.find({ proyecto_id: proyectoid });
+    console.log(proyecto);
+    var proyectito = {
+        proyecto_id: proyecto.proyecto_id,
+        nombre_empresa: proyecto.empresario,
+        nombre_proyecto: proyecto.name,
+        descripcion: proyecto.descripcion,
+        estado: proyecto.estado,
+    };
+    req.proyecto = proyectito;
+    req.session.proyecto = proyectito;
+
+    console.log(proyecto)
+    var oferta = await Oferta.find({ proyecto_id: req.session.proyecto_id });
     oferta.forEach(function (currentValue, index, array) {
         ofertitas[index] = {
             nombre_empresa: currentValue.nombre_empresa,
@@ -129,9 +144,11 @@ exports.listproyecto = async (req, res, next) => {
     req.ofertas = ofertitas;
     //if(req.isAPI) res.json(proyecto)
     next();
+    //res.render('gestionarofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas, proyecto: req.proyecto });
 };
 
 exports.listOwn = async (req, res, next) => {
+    console.log("list own");
     var ofertitas = [];
     res.locals.user = req.session.user;
     //proyectoCtrl.delete({        name: "Mercadona"    });

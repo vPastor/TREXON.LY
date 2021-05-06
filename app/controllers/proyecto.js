@@ -60,7 +60,7 @@ exports.list = async (req, res, next) => {
     next();
 };
 exports.findOne = async (req, res, next) => {
-
+    console.log("holaaaa");
     var proyectoid = req.params.ernombre;
     res.locals.user = req.session.user;
     console.log(" id proyecto");

@@ -25,10 +25,13 @@
     </div>
     {{/each}}
     {{/if}}
+    {{#if proyecto}}
+    {{proyecto.proyecto_id}}
     <form method="get" action="/crearoferta/{{proyecto.proyecto_id}}">
         <button class="btn btn-success btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top"
           title="Edit">Crear Oferta  <i class="fa fa-edit"></i></button>
     </form>
+    {{/if}}
   </section>
 </div>
 <br>

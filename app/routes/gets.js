@@ -134,18 +134,18 @@ router.get('/ofertas', function (req, res, next) {
     res.render('ofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas });
 });
 router.get('/verofertas/:ernombre', ofertaCtrl.listproyecto);
-router.get('/verofertas/:ernombre', function (req, res, next) {
+router.get('/verofertas/:ernombre', function (req, res) {
     res.render('ofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas });
 });
-router.get('/gestionarofertas/:proyectoid', ofertaCtrl.listproyecto);
+router.use('/gestionarofertas/:proyectoid', ofertaCtrl.listproyecto);
 router.get('/gestionarofertas/:proyectoid', function (req, res, next) {
     res.render('gestionarofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas, proyecto: req.proyecto });
 });
 
-router.get("/crearoferta", function (req, res, next) {
+router.get("/crearoferta/:proyectoid", function (req, res, next) {
     
     res.render('crearoferta', {
-        layout: 'layout', template: 'home-template', proyecto: req.proyecto
+        layout: 'layout', template: 'home-template', proyecto: req.session.proyecto
     });
 }
 );
