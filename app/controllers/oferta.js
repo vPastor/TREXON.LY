@@ -14,17 +14,20 @@ exports.create = async (req, res, next) => {
     var p_nombre = req.session.proyecto.nombre_proyecto;
     console.log("el user");
     console.log(req.session.user);
+    console.log("el nombre oferta");
+    console.log(req.body.nombre_oferta);
     var query = {
         nombre_empresa: req.session.user.name,
+        nombre_oferta: req.body.nombre_oferta,
         nombre_proyecto: p_nombre,
         role: req.body.role,
-        exexperiencia: req.body.exexperiencia,
+        experiencia: req.body.experiencia,
         sueldo: req.body.sueldo,
         descripcion: req.body.descripcion,
         proyecto_id: p_id,
         estado: "abierto",
         aplicados: []
-    };    
+    };
     var oferta = new Oferta(query);
     req.oferta = oferta;
     var res = await oferta.save((err, res) => {
@@ -55,20 +58,60 @@ exports.list = async (req, res, next) => {
     //res.locals.ofertas = ofertitas;
     var oferta = await Oferta.find({});
     oferta.forEach(function (currentValue, index, array) {
-        console.log(index)
+        console.log(currentValue.nombre_empresa);
         ofertitas[index] = {
             nombre_empresa: currentValue.nombre_empresa,
             nombre_proyecto: currentValue.nombre_proyecto,
+            nombre_oferta: currentValue.nombre_oferta,
             descripcion: currentValue.descripcion,
             estado: currentValue.estado,
-            proyecto_id: currentValue.proyecto_id
+            proyecto_id: currentValue.proyecto_id,
+            role: currentValue.role,
+            experiencia: currentValue.experiencia,
+            sueldo: currentValue.sueldo
         }
     });
     req.ofertas = ofertitas;
-    console.log(oferta);
+    console.log(ofertitas);
     //if(req.isAPI) res.json(proyecto)
     next();
 };
+
+exports.aplicaroferta = async (req, res, next) => {
+    console.log("aplicar");
+    res.locals.user = req.session.user;
+    var proyectoidynombre = req.params.proyectoidynombre;
+    var proyectoid = proyectoidynombre.split("lllllll")[0];
+    console.log(proyectoid);
+    var nombre_ofertas = proyectoidynombre.split("lllllll")[1];
+    console.log(nombre_ofertas);
+    //proyectoCtrl.delete({        name: "Mercadona"    });
+    //var lista_ofertas = await proyectoCtrl.list();
+    //console.log("AQUI VIENE LA LISTA");
+    /**/
+    //res.locals.ofertas = ofertitas;
+    var proyecto = await Oferta.findOne({ proyecto_id: proyectoid, nombre_oferta: nombre_ofertas });
+    if (!proyecto) {
+        res.render('gestionarofertas', { layout: 'layout', template: 'home-template', error: "No se ha podido aplicar a la oferta" });
+    }
+    else {
+        var filter = { proyecto_id: proyectoid, nombre_oferta: nombre_ofertas };
+        proyecto.aplicados.push(req.session.user.name);
+        console.log("PROYECTO APLICADOOOOS!");
+        console.log(proyecto.aplicados);
+        let doc = await Oferta.findOneAndUpdate(filter, proyecto, {
+            new:true
+        });
+        console.log(doc);
+        res.locals.mensaje = "Se ha aplicado a esta oferta correctamente!";
+        
+        //if(req.isAPI) res.json(proyecto)
+        next();
+    }
+
+};
+
+
 exports.findOne = async (req, res, next) => {
     console.log("find one");
     var nombre_oferta = req.params.ernombre;
@@ -81,6 +124,9 @@ exports.findOne = async (req, res, next) => {
     /**/
     //res.locals.ofertas = ofertitas;
     var proyecto = await Proyecto.findOne({ nombre_proyecto: nombre_oferta });
+    if (!proyecto) {
+        res.render('gestionarofertas', { layout: 'layout', template: 'home-template', error: "No se ha podido encontrar proyecto" });
+    }
     console.log(proyecto);
     var ofertitas = {
         nombre_empresa: proyecto.nombre_empresa,
@@ -90,6 +136,7 @@ exports.findOne = async (req, res, next) => {
         estado: proyecto.estado,
         role: proyecto.role,
         experiencia: proyecto.experiencia,
+        sueldo: currentValue.sueldo,
         proyecto_id: proyecto.proyecto_id
     };
 
@@ -102,8 +149,9 @@ exports.listproyecto = async (req, res, next) => {
     //console.log("list proyecto");
     var ofertitas = [];
     res.locals.user = req.session.user;
-    
+
     var proyectoid = req.params.proyectoid;
+    console.log(proyectoid);
     //console.log("prouecyto id");
     //console.log(proyectoid);
 
@@ -114,41 +162,51 @@ exports.listproyecto = async (req, res, next) => {
     //res.locals.ofertas = ofertitas;
     //proyectoid = "PrinterestProyecto de prueba";
     var proyecto = await Proyecto.findOne({ proyecto_id: proyectoid });
-    console.log("PROYECTO DE SESSION");
     console.log(proyecto);
-    console.log(proyecto.proyecto_id);
-    var proyectito = {
-        proyecto_id: proyecto.proyecto_id,
-        nombre_empresa: proyecto.nombre_empresa,
-        nombre_proyecto: proyecto.nombre_proyecto,
-        descripcion: proyecto.descripcion,
-        estado: proyecto.estado,
-    };
-    console.log("PROYECTO DE SESSION");
-    console.log(proyectito);
-    req.proyecto = proyectito;
-    req.session.proyecto = proyectito;
+    if (proyecto == null) {
+        res.render('gestionarofertas', { layout: 'layout', template: 'home-template', error: "No se ha podido encontrar proyecto" });
+    }
+    else {
+        console.log("PROYECTO DE SESSION");
+        console.log(proyecto);
+        console.log(proyecto.proyecto_id);
+        var proyectito = {
+            proyecto_id: proyecto.proyecto_id,
+            nombre_empresa: proyecto.nombre_empresa,
+            nombre_proyecto: proyecto.nombre_proyecto,
+            descripcion: proyecto.descripcion,
+            estado: proyecto.estado,
+        };
+        console.log("PROYECTO DE SESSION");
+        console.log(proyectito);
+        req.proyecto = proyectito;
+        req.session.proyecto = proyectito;
 
-    //console.log(proyecto)
-    var oferta = await Oferta.find({ proyecto_id: req.session.proyecto_id });
-    oferta.forEach(function (currentValue, index, array) {
-        ofertitas[index] = {
-            nombre_empresa: currentValue.nombre_empresa,
-            nombre_proyecto: currentValue.nombre_proyecto,
-            nombre_oferta: currentValue.nombre_oferta,
-            descripcion: currentValue.descripcion,
-            estado: currentValue.estado,
-            role: currentValue.role,
-            experiencia: currentValue.experiencia,
-            proyecto_id: currentValue.proyecto_id
+        //console.log(proyecto)
+        var oferta = await Oferta.find({ proyecto_id: proyectito.proyecto_id });
+        if (!oferta) {
+            res.render('gestionarofertas', { layout: 'layout', template: 'home-template', error: "No se ha podido encontrar proyecto" });
         }
-    });
-    console.log("Lo que viene de la base de datos "),
-    console.log(ofertitas);
-    req.ofertas = ofertitas;
-    //if(req.isAPI) res.json(proyecto)
-    next();
-    //res.render('gestionarofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas, proyecto: req.proyecto });
+        oferta.forEach(function (currentValue, index, array) {
+            ofertitas[index] = {
+                nombre_empresa: currentValue.nombre_empresa,
+                nombre_proyecto: currentValue.nombre_proyecto,
+                nombre_oferta: currentValue.nombre_oferta,
+                descripcion: currentValue.descripcion,
+                estado: currentValue.estado,
+                role: currentValue.role,
+                sueldo: currentValue.sueldo,
+                experiencia: currentValue.experiencia,
+                proyecto_id: currentValue.proyecto_id
+            }
+        });
+        console.log("Lo que viene de la base de datos "),
+            console.log(ofertitas);
+        req.ofertas = ofertitas;
+        //if(req.isAPI) res.json(proyecto)
+        next();
+        //res.render('gestionarofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas, proyecto: req.proyecto });
+    }
 };
 
 exports.listOwn = async (req, res, next) => {
@@ -166,8 +224,12 @@ exports.listOwn = async (req, res, next) => {
         ofertitas[index] = {
             nombre_empresa: currentValue.nombre_empresa,
             nombre_proyecto: currentValue.nombre_proyecto,
+            nombre_oferta: currentValue.nombre_oferta,
             descripcion: currentValue.descripcion,
             estado: currentValue.estado,
+            role: currentValue.role,
+            experiencia: currentValue.experiencia,
+            sueldo: currentValue.sueldo,
             proyecto_id: currentValue.proyecto_id
         }
     });

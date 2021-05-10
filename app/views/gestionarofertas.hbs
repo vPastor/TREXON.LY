@@ -4,13 +4,18 @@
 <br>
 <br>
 <div id="content-query">
+  {{#if error}}
+  <h3>{{error}}</h3>
+  {{else}}
   <section class="card">
     <h3><b>GESTION DE OFERTAS</b></h3>
     {{#if ofertas}}
     {{#each ofertas }}
+    {{#if this.nombre_empresa}}
     <div class="divoferta">
       <h5>Nombre de la oferta: {{ this.nombre_oferta}}</h5>
       <p>Empresa ofertante: {{ this.nombre_empresa}}</p>
+      <p>Rol : {{this.role}}</p>
       <p>Descripcion : {{this.descripcion}}</p>
       <p>Experiencia : {{this.experiencia}}</p>
       <p>Sueldo : {{this.sueldo}}</p>
@@ -23,14 +28,16 @@
           title="Edit">EDIT <i class="fa fa-edit"></i></button>
       </form>
     </div>
+    {{/if}}
     {{/each}}
     {{/if}}
+
     {{#if proyecto}}
-    {{proyecto.proyecto_id}}
     <form method="get" action="/crearoferta/{{proyecto.proyecto_id}}">
         <button class="btn btn-success btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top"
           title="Edit">Crear Oferta  <i class="fa fa-edit"></i></button>
     </form>
+    {{/if}}
     {{/if}}
   </section>
 </div>

@@ -8,6 +8,7 @@
     <h3><b>PROYECTOS</b></h3>
     {{#if proyectos}}
     {{#each proyectos }}
+    {{#if this.nombre_empresa}}
     <div class="divoferta">
       <h5>Nombre de la Proyecto: {{ this.nombre_proyecto }}</h5>
       <p>Empresa ofertante: {{ this.nombre_empresa }}</p>
@@ -18,6 +19,7 @@
       </form>
     </div>
     {{/each}}
+    {{/if}}
     {{else}}
         <h6>Crea tu proyecto</h6>
         <form method="get" action="/crearproyecto">

@@ -17,16 +17,13 @@ var upload = multer({
         cb(undefined, true)
     }
 });
-/*routers.use( function (req, res, next) {
+router.use( function (req, res, next) {
     if(req.session.user)
     {
-        next();
+        console.log(req.session.user.name);
     }
-    else{
-        res.render('login', { layout: 'layout', template: 'home-template' });
-    }
-    
-  });*/
+    next();
+  });
 router.get("/", function (req, res, next) {
     res.render('login', { layout: 'layout', template: 'home-template' });
 });
@@ -133,13 +130,19 @@ router.get('/ofertas', ofertaCtrl.list);
 router.get('/ofertas', function (req, res, next) {
     res.render('ofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas });
 });
-router.get('/verofertas/:ernombre', ofertaCtrl.listproyecto);
-router.get('/verofertas/:ernombre', function (req, res) {
+router.get('/verofertas/:proyectoid', ofertaCtrl.listproyecto);
+router.get('/verofertas/:proyectoid', function (req, res) {
     res.render('ofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas });
 });
-router.use('/gestionarofertas/:proyectoid', ofertaCtrl.listproyecto);
+router.get('/gestionarofertas/:proyectoid', ofertaCtrl.listproyecto);
 router.get('/gestionarofertas/:proyectoid', function (req, res, next) {
     res.render('gestionarofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas, proyecto: req.proyecto });
+});
+
+router.get('/aplicaroferta/:proyectoidynombre', ofertaCtrl.aplicaroferta);
+router.get('/aplicaroferta/:proyectoidynombre', ofertaCtrl.list);
+router.get('/aplicaroferta/:proyectoidynombre', function (req, res, next) {
+    res.render('ofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas, proyecto: req.proyecto });
 });
 
 router.get("/crearoferta/:proyectoid", function (req, res, next) {

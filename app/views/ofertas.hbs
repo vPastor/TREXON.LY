@@ -3,10 +3,13 @@
 </center>
 <br>
 <br>
+
 <div id="content-query">
   <section class="card">
+    {{#if mensaje}}
+    <h6>{{mensaje}}</h6>
+    {{/if}}
     <h3><b>Lista de ofertas</b></h3>
-    {{ofertas}}
     {{#if ofertas}}
     {{#each ofertas }}
     <div class="divoferta">
@@ -19,7 +22,7 @@
         <button class="btn btn-success btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top"
           title="Edit">Ver proyecto <i class="fa fa-edit"></i></button>
       </form>
-      <form method="get" action="/aplicaroferta/{{this.proyecto_id}}/{{this.proyecto_id}}">
+      <form method="get" action="/aplicaroferta/{{this.proyecto_id}}lllllll{{this.nombre_oferta}}">
         <button class="btn btn-success btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top"
           title="Edit">Aplicar a esta oferta<i class="fa fa-edit"></i></button>
       </form>
