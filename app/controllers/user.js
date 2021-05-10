@@ -8,7 +8,7 @@ User = require('../models/userModel.js');
  * we redirect to the login page with an error message
  */
 exports.login = async (req, res, next) => {
-
+    
     var name = req.body.user;
     var password = req.body.password;
     var query = {

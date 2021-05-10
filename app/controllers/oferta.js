@@ -99,13 +99,13 @@ exports.findOne = async (req, res, next) => {
     next();
 };
 exports.listproyecto = async (req, res, next) => {
-    console.log("list proyecto");
+    //console.log("list proyecto");
     var ofertitas = [];
     res.locals.user = req.session.user;
     
     var proyectoid = req.params.proyectoid;
-    console.log("prouecyto id");
-    console.log(proyectoid);
+    //console.log("prouecyto id");
+    //console.log(proyectoid);
 
     //proyectoCtrl.delete({        name: "Mercadona"    });
     //var lista_ofertas = await proyectoCtrl.list();
@@ -113,19 +113,23 @@ exports.listproyecto = async (req, res, next) => {
     /**/
     //res.locals.ofertas = ofertitas;
     //proyectoid = "PrinterestProyecto de prueba";
-    var proyecto = await Proyecto.find({ proyecto_id: proyectoid });
+    var proyecto = await Proyecto.findOne({ proyecto_id: proyectoid });
+    console.log("PROYECTO DE SESSION");
     console.log(proyecto);
+    console.log(proyecto.proyecto_id);
     var proyectito = {
         proyecto_id: proyecto.proyecto_id,
-        nombre_empresa: proyecto.empresario,
-        nombre_proyecto: proyecto.name,
+        nombre_empresa: proyecto.nombre_empresa,
+        nombre_proyecto: proyecto.nombre_proyecto,
         descripcion: proyecto.descripcion,
         estado: proyecto.estado,
     };
+    console.log("PROYECTO DE SESSION");
+    console.log(proyectito);
     req.proyecto = proyectito;
     req.session.proyecto = proyectito;
 
-    console.log(proyecto)
+    //console.log(proyecto)
     var oferta = await Oferta.find({ proyecto_id: req.session.proyecto_id });
     oferta.forEach(function (currentValue, index, array) {
         ofertitas[index] = {
