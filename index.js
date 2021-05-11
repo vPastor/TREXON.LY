@@ -93,7 +93,7 @@ var mongoose = require("mongoose");
 //mongoose.connect('mongodb://devroot:devroot@mongo/chat?authMechanism=SCRAM-SHA-1');
  mongoose.connect('mongodb://mongo:27017/trexonly', { useNewUrlParser: true }, (err, res) => {
   if (err) console.log('ERROR NO SE HA PODIDO CONECTAR A LA BASE DE DATOS => ' + err);
-  else console.log('Database online: ' + process.env.MONGO_DB);
+  else console.log('Database onlisne: ' + process.env.MONGO_DB);
 });
 
 Handlebars.registerHelper('ifc', function (v1, v2, options) {

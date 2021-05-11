@@ -138,6 +138,9 @@ router.get('/gestionarofertas/:proyectoid', ofertaCtrl.listproyecto);
 router.get('/gestionarofertas/:proyectoid', function (req, res, next) {
     res.render('gestionarofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas, proyecto: req.proyecto });
 });
+router.get('/gestionaraplicantes', function (req, res, next) {
+    res.render('elegircandidatos', { layout: 'layout', template: 'home-template', verticalnavbar:true });
+});
 
 router.get('/aplicaroferta/:proyectoidynombre', ofertaCtrl.aplicaroferta);
 router.get('/aplicaroferta/:proyectoidynombre', ofertaCtrl.list);

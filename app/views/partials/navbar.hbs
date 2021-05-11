@@ -39,18 +39,58 @@
 
         {{#ifc user.role "Fotografo"}}
         <a class="nav-link" href="/index">Perfil</a>
+        <li class="nav-item dropdown" style="list-style-type: none;">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Proyectos
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="/proyectos">Listar Proyecto</a>
+            <a class="dropdown-item" href="/ofertas">Listar Ofertas</a>          
+          </div>
+        </li>
         <a class="btn btn-primary" href="/logout">Logout</a>
         {{/ifc}}
         {{#ifc user.role "Diseniador"}}
         <a class="nav-link" href="/index">Perfil</a>
+        <li class="nav-item dropdown" style="list-style-type: none;">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Proyectos
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="/proyectos">Listar Proyecto</a>
+            <a class="dropdown-item" href="/ofertas">Listar Ofertas</a>          
+          </div>
+        </li>
         <a class="btn btn-primary" href="/logout">Logout</a>
         {{/ifc}}
         {{#ifc user.role "Publicista"}}
         <a class="nav-link" href="/index">Perfil</a>
+        <li class="nav-item dropdown" style="list-style-type: none;">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Proyectos
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="/proyectos">Listar Proyecto</a>
+            <a class="dropdown-item" href="/ofertas">Listar Ofertas</a>         
+          </div>
+        </li>
         <a class="btn btn-primary" href="/logout">Logout</a>
         {{/ifc}}
         {{#ifc user.role "Programador"}}
         <a class="nav-link" href="/index">Perfil</a>
+        <li class="nav-item dropdown" style="list-style-type: none;">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Proyectos
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="/proyectos">Listar Proyecto</a>
+            <a class="dropdown-item" href="/ofertas">Listar Ofertas</a>          
+          </div>
+        </li>
         <a class="btn btn-primary" href="/logout">Logout</a>
         {{/ifc}}
 
