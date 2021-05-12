@@ -8,24 +8,30 @@ User = require('../models/userModel.js');
  * we redirect to the login page with an error message
  */
 exports.login = async (req, res, next) => {
-    
+
     var name = req.body.user;
     var password = req.body.password;
     var query = {
-        "name": name,
+        "nickname": name,
         "password": password
     };
 
-        
+
     var resp = await User.find(query);
-    var user = {
-        nickname: resp[0].nickname||"Provisional",
-        name: resp[0].name,
-        email: resp[0].email,
-        phone: resp[0].phone,
-        role: resp[0].role,
-        location: "Barcelona"
+    if (!resp) {
+        res.render('login', {
+            layout: 'layout', template: 'home-template', message: "User not found"
+        });
     }
+    else{
+        var user = {
+            nickname: resp[0].nickname || "Provisional",
+            name: resp[0].name,
+            email: resp[0].email,
+            phone: resp[0].phone,
+            role: resp[0].role,
+            location: "Barcelona"
+        }
         /*, function (err, res) {
         resp = res;
         if (err) console.log(err)
@@ -34,8 +40,10 @@ exports.login = async (req, res, next) => {
         console.log(resp);
         return resp;
     });*/
-    req.user= user;
-    next();
+        req.user = user;
+        next();
+    }
+    
 
 };
 
@@ -73,29 +81,30 @@ exports.register = function (req, res, next) {
     //req.session.success = true;
 
     var usertocreate = new User();
-    
-    usertocreate.name= req.body.fullname,
-    usertocreate.email= req.body.email,
-    usertocreate.phone= req.body.phone,
-    usertocreate.role= req.body.role,
-    usertocreate.password= req.body.password,
-    usertocreate.location= "Barcelona",
+    usertocreate.nickname = req.body.nickname,
+        usertocreate.name = req.body.fullname,
+        usertocreate.email = req.body.email,
+        usertocreate.phone = req.body.phone,
+        usertocreate.role = req.body.role,
+        usertocreate.password = req.body.password,
+        usertocreate.location = "Barcelona",
         //hay que hacer la imagen importandola y guardandola en public
         //si nos flipamos, podemos pedir el CV, y poder acceder a el desde la vista
         //tambien importar los proyectos
 
-    
 
-    //create a new user object
-    usertocreate.save(function (err) {
-        if (err) {
-            res.render('registration', {
-                layout: 'layout', template: 'home-template', message: "User altready exist"
-            });
-        } else {
-            next();
-        }
-    });
+
+        //create a new user object
+        usertocreate.save(function (err) {
+            if (err) {
+                console.log(err);
+                res.render('registration', {
+                    layout: 'layout', template: 'home-template', message: "User altready exist"
+                });
+            } else {
+                next();
+            }
+        });
 
 };
 /**

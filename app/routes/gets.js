@@ -86,7 +86,7 @@ var proyectoCtrl = require("../controllers/proyecto.js");
 
 router.get('/proyecto/:ernombre', proyectoCtrl.findOne);
 router.get('/proyecto/:ernombre', function (req, res, next) {
-    res.render('proyectos', { layout: 'layout', template: 'home-template', proyectos: req.proyecto });
+    res.render('proyectos', { layout: 'layout', template: 'home-template', proyecto: req.proyecto });
 });
 
 
@@ -116,7 +116,7 @@ router.get("/crearproyecto", function (req, res, next) {
 router.post("/crearproyecto", proyectoCtrl.create
 );
 router.post("/crearproyecto", function (req, res, next) {
-    res.render('proyectos', {
+    res.render('gestionarproyectos', {
         layout: 'layout', template: 'home-template', proyectos: req.proyecto
     });
 }

@@ -6,9 +6,19 @@
 <div id="content-query">
   <section class="card">
     <h3><b>PROYECTOS</b></h3>
+    {{#if proyecto}}
+    <div class="divoferta">
+      <h5>Nombre de la Proyecto: {{ proyecto.nombre_proyecto }}</h5>
+      <p>Empresa ofertante: {{ proyecto.nombre_empresa }}</p>
+      <p>Descripcion : {{proyecto.descripcion}}</p>
+      <form method="get" action="/verofertas/{{proyecto.proyecto_id}}">
+        <button class="btn btn-success btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top"
+          title="Edit">Ver ofertas <i class="fa fa-edit"></i></button>
+      </form>
+    </div>
+    {{else}}
     {{#if proyectos}}
-    {{#each proyectos }}
-    {{#if this.nombre_empresa}}
+    {{#each proyectos}}
     <div class="divoferta">
       <h5>Nombre de la Proyecto: {{ this.nombre_proyecto }}</h5>
       <p>Empresa ofertante: {{ this.nombre_empresa }}</p>
@@ -18,17 +28,15 @@
           title="Edit">Ver ofertas <i class="fa fa-edit"></i></button>
       </form>
     </div>
-    {{/if}}
     {{/each}}
-    
     {{else}}
-        <h6>Crea tu proyecto</h6>
-        <form method="get" action="/crearproyecto">
-        <button class="btn btn-success btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top"
-          title="Edit">Crear  <i class="fa fa-edit"></i></button>
-      </form>
+    <h6>Crea tu proyecto</h6>
+    <form method="get" action="/crearproyecto">
+      <button class="btn btn-success btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top"
+        title="Edit">Crear <i class="fa fa-edit"></i></button>
+    </form>
     {{/if}}
-    
+    {{/if}}
   </section>
 </div>
 <br>

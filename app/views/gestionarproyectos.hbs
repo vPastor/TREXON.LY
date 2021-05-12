@@ -8,6 +8,7 @@
     <h3><b>PROYECTOS</b></h3>
     {{#if proyectos}}
     {{#each proyectos }}
+    {{#if this.nombre_empresa}}
     <div class="divoferta">
       <h5>Nombre de la Proyecto: {{ this.nombre_proyecto }}</h5>
       <p>Empresa ofertante: {{ this.nombre_empresa }}</p>
@@ -20,16 +21,17 @@
         <button class="btn btn-success btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top"
           title="Edit">Ver ofertas <i class="fa fa-edit"></i></button>
       </form>
-          <form method="get" action="/gestionarofertas/{{this.proyecto_id}}">
-      <button class="btn btn-success btn-sm rounded-0" type="submit"
-        title="Gestionar">Gestionar ofertas <i class="fa fa-edit"></i></button>
-    </form>
-    
+      <form method="get" action="/gestionarofertas/{{this.proyecto_id}}">
+        <button class="btn btn-success btn-sm rounded-0" type="submit" title="Gestionar">Gestionar ofertas <i
+            class="fa fa-edit"></i></button>
+      </form>
 
-</div>
-{{/each}}
+    </div>
+    {{/if}}
 
-{{/if}}
-</section>
+    {{/each}}
+
+    {{/if}}
+  </section>
 </div>
 <br>

@@ -60,28 +60,24 @@ exports.list = async (req, res, next) => {
     next();
 };
 exports.findOne = async (req, res, next) => {
-    console.log("holaaaa");
     var proyectoid = req.params.ernombre;
     res.locals.user = req.session.user;
-    console.log(" id proyecto");
-    console.log(proyectoid);
     //proyectoCtrl.delete({        name: "Mercadona"    });
     //var lista_ofertas = await proyectoCtrl.list();
     //console.log("AQUI VIENE LA LISTA");
     /**/
     //res.locals.ofertas = ofertitas;
     var proyecto = await Proyecto.findOne({ proyecto_id: proyectoid });
-    console.log(proyecto);
     var ofertitas = {
         proyecto_id: proyecto.proyecto_id,
-        nombre_empresa: proyecto.empresario,
-        nombre_proyecto: proyecto.name,
+        nombre_empresa: proyecto.nombre_empresa,
+        nombre_proyecto: proyecto.nombre_proyecto,
         descripcion: proyecto.descripcion,
         estado: proyecto.estado,
     };
 
     req.proyecto = ofertitas;
-    console.log(proyecto);
+    console.log(req.proyecto);
     //if(req.isAPI) res.json(proyecto)
     next();
 };
