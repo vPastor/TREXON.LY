@@ -5,6 +5,10 @@ const Schema = mongoose.Schema;
 let userSchema = new Schema({
   name: {
     type: String,
+    required: true
+  },
+  nickname: {
+    type: String,
     required: true,
     unique: true
   },

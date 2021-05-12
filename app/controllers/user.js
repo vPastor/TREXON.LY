@@ -19,6 +19,7 @@ exports.login = async (req, res, next) => {
         
     var resp = await User.find(query);
     var user = {
+        nickname: resp[0].nickname||"Provisional",
         name: resp[0].name,
         email: resp[0].email,
         phone: resp[0].phone,

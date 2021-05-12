@@ -148,6 +148,12 @@ router.get('/aplicaroferta/:proyectoidynombre', function (req, res, next) {
     res.render('ofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas, proyecto: req.proyecto });
 });
 
+router.get('/desaplicaroferta/:proyectoidynombre', ofertaCtrl.desaplicaroferta);
+router.get('/desaplicaroferta/:proyectoidynombre', ofertaCtrl.list);
+router.get('/desaplicaroferta/:proyectoidynombre', function (req, res, next) {
+    res.render('ofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas, proyecto: req.proyecto });
+});
+
 router.get("/crearoferta/:proyectoid", function (req, res, next) {
     
     res.render('crearoferta', {

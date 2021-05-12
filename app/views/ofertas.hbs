@@ -22,10 +22,17 @@
         <button class="btn btn-success btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top"
           title="Edit">Ver proyecto <i class="fa fa-edit"></i></button>
       </form>
+      {{#if this.aplicado}}
+      <form method="get" action="/desaplicaroferta/{{this.proyecto_id}}lllllll{{this.nombre_oferta}}">
+        <button class="btn btn-success btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top"
+          title="Edit">Retirar la aplicacion a esta oferta<i class="fa fa-edit"></i></button>
+      </form>
+      {{else}}
       <form method="get" action="/aplicaroferta/{{this.proyecto_id}}lllllll{{this.nombre_oferta}}">
         <button class="btn btn-success btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top"
           title="Edit">Aplicar a esta oferta<i class="fa fa-edit"></i></button>
       </form>
+      {{/if}}
     </div>
     {{/each}}
     {{else}}
