@@ -153,6 +153,34 @@ exports.desaplicaroferta = async (req, res, next) => {
 
 };
 
+exports.gestionarcandidatos = async (req, res, next) => {
+    console.log("desaplicar");
+    res.locals.user = req.session.user;
+    var proyectoidynombre = req.params.proyectoidynombre;
+    var proyectoid = proyectoidynombre.split("lllllll")[0];
+    console.log(proyectoid);
+    var nombre_ofertas = proyectoidynombre.split("lllllll")[1];
+    console.log(nombre_ofertas);
+    //proyectoCtrl.delete({        name: "Mercadona"    });
+    //var lista_ofertas = await proyectoCtrl.list();
+    //console.log("AQUI VIENE LA LISTA");
+    /**/
+    //res.locals.ofertas = ofertitas;
+    var proyecto = await Oferta.findOne({ proyecto_id: proyectoid, nombre_oferta: nombre_ofertas });
+    if (!proyecto) {
+        res.render('gestionarofertas', { layout: 'layout', template: 'home-template', error: "No se ha podido aplicar a la oferta" });
+    }
+    else {
+        var filter = { proyecto_id: proyectoid, nombre_oferta: nombre_ofertas };
+        for( var i = 0; i < proyecto.aplicados.length; i++){ 
+            req.session.aplicados[i]=proyecto.aplicados[i];
+        }
+        //if(req.isAPI) res.json(proyecto)
+        next();
+    }
+
+};
+
 exports.findOne = async (req, res, next) => {
     console.log("find one");
     var nombre_oferta = req.params.ernombre;

@@ -23,9 +23,13 @@
         <button class="btn btn-success btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top"
           title="Edit">Eliminar oferta<i class="fa fa-edit"></i></button>
       </form>
-            <form method="get" action="/editaroferta/{{this.proyecto_id}}/{{this.nombre_oferta}}">
+      <form method="get" action="/editaroferta/{{this.proyecto_id}}/{{this.nombre_oferta}}">
         <button class="btn btn-success btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top"
           title="Edit">EDIT <i class="fa fa-edit"></i></button>
+      </form>
+      <form method="get" action="/elegircandidatos/{{this.proyecto_id}}lllllll{{this.nombre_oferta}}">
+        <button class="btn btn-success btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top"
+          title="Edit">Elegir Canditatos <i class="fa fa-edit"></i></button>
       </form>
     </div>
     {{/if}}
@@ -34,8 +38,8 @@
 
     {{#if proyecto}}
     <form method="get" action="/crearoferta/{{proyecto.proyecto_id}}">
-        <button class="btn btn-success btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top"
-          title="Edit">Crear Oferta  <i class="fa fa-edit"></i></button>
+      <button class="btn btn-success btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top"
+        title="Edit">Crear Oferta <i class="fa fa-edit"></i></button>
     </form>
     {{/if}}
     {{/if}}

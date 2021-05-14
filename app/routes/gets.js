@@ -153,17 +153,20 @@ router.get('/desaplicaroferta/:proyectoidynombre', ofertaCtrl.list);
 router.get('/desaplicaroferta/:proyectoidynombre', function (req, res, next) {
     res.render('ofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas, proyecto: req.proyecto });
 });
+//DOING
+router.get('/elegircandidatos/:proyectoidynombre', ofertaCtrl.gestionarcandidatos);
+router.get('/elegircandidatos/:proyectoidynombre', function (req, res, next) {
+    res.render('ofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas, proyecto: req.proyecto });
+});
 
 router.get("/crearoferta/:proyectoid", function (req, res, next) {
-    
     res.render('crearoferta', {
         layout: 'layout', template: 'home-template', proyecto: req.session.proyecto
     });
 }
 );
 
-router.post("/crearoferta", ofertaCtrl.create
-);
+router.post("/crearoferta", ofertaCtrl.create);
 router.post("/crearoferta", function (req, res, next) {
     res.render('gestionarofertas', {
         layout: 'layout', template: 'home-template', ofertas: req.oferta, proyecto: req.session.proyecto
