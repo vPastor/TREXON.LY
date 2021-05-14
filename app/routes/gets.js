@@ -166,7 +166,7 @@ router.post("/crearoferta", ofertaCtrl.create
 );
 router.post("/crearoferta", function (req, res, next) {
     res.render('gestionarofertas', {
-        layout: 'layout', template: 'home-template', ofertas: req.oferta, proyecto: req.proyecto
+        layout: 'layout', template: 'home-template', ofertas: req.oferta, proyecto: req.session.proyecto
     });
 }
 );

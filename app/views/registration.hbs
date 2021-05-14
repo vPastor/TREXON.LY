@@ -5,12 +5,13 @@
 			<article class="card-body mx-auto">
 				<h4 class="card-title mt-3 text-center">Create Account</h4>
 				<form action="/create" method="POST">
+					<p>El nickname no podras cambiarlo mas tarde</p>
 					<div class="form-group input-group">
-						<label for="nickname">No podrás cambiarlo mas tarde</label>
-						<div class="input-group-prepend">
+						<div id="nickname" class="input-group-prepend">
 							<span class="input-group-text"> <i class="fa fa-user"></i> </span>
 						</div>
-						<input name="nickname" id="nickname" class="form-control" placeholder="Nickname" type="text">
+						<input name="nickname" class="form-control" placeholder="Nickname" type="text">
+
 					</div> <!-- form-group// -->
 					<div class="form-group input-group">
 						<div class="input-group-prepend">

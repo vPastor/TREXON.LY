@@ -30,7 +30,12 @@
     {{/if}}
 
     {{/each}}
+    {{else}}
 
+    <form method="get" action="/crearproyecto">
+        <button class="btn btn-success btn-sm rounded-0" type="submit" title="Gestionar">Crear proyecto <i
+            class="fa fa-edit"></i></button>
+      </form>
     {{/if}}
   </section>
 </div>

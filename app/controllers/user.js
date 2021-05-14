@@ -17,19 +17,20 @@ exports.login = async (req, res, next) => {
     };
 
 
-    var resp = await User.find(query);
+    var resp = await User.findOne(query);
+    console.log(resp);
     if (!resp) {
         res.render('login', {
-            layout: 'layout', template: 'home-template', message: "User not found"
+            layout: 'layout', template: 'home-template', salida: "User not found"
         });
     }
     else{
         var user = {
-            nickname: resp[0].nickname || "Provisional",
-            name: resp[0].name,
-            email: resp[0].email,
-            phone: resp[0].phone,
-            role: resp[0].role,
+            nickname: resp.nickname || "Provisional",
+            name: resp.name,
+            email: resp.email,
+            phone: resp.phone,
+            role: resp.role,
             location: "Barcelona"
         }
         /*, function (err, res) {
@@ -37,7 +38,7 @@ exports.login = async (req, res, next) => {
         if (err) console.log(err)
         console.log("LOGGIN CORRECTO");
         //console.log(respuesta);
-        console.log(resp);
+        console.log(resp);r
         return resp;
     });*/
         req.user = user;
