@@ -2,6 +2,7 @@ var mongooose = require('mongoose');
 const { nextTick } = require('process');
 var Oferta = require("../models/Oferta");
 var Proyecto = require("../models/Proyecto");
+var User = require("../models/userModel");
 var bodyParser = require('body-parser');
 var contador = 0;
 // c) Controlador de asignaturas.js en la que aparezcan los métodos de listar, crear, 
@@ -58,7 +59,7 @@ exports.list = async (req, res, next) => {
     //res.locals.ofertas = ofertitas;
     var oferta = await Oferta.find({});
     oferta.forEach(function (currentValue, index, array) {
-        console.log(currentValue.nombre_empresa);
+        //console.log(currentValue.nombre_empresa);
         ofertitas[index] = {
             nombre_empresa: currentValue.nombre_empresa,
             nombre_proyecto: currentValue.nombre_proyecto,
@@ -68,10 +69,13 @@ exports.list = async (req, res, next) => {
             proyecto_id: currentValue.proyecto_id,
             role: currentValue.role,
             experiencia: currentValue.experiencia,
-            sueldo: currentValue.sueldo
+            sueldo: currentValue.sueldo,
+            aplicados:currentValue.aplicados,
+            yo_aplicado: currentValue.aplicados.includes(req.session.user.nickname)
         }
     });
     req.ofertas = ofertitas;
+    console.log("OFERTITAS!");
     console.log(ofertitas);
     //if(req.isAPI) res.json(proyecto)
     next();
@@ -82,9 +86,9 @@ exports.aplicaroferta = async (req, res, next) => {
     res.locals.user = req.session.user;
     var proyectoidynombre = req.params.proyectoidynombre;
     var proyectoid = proyectoidynombre.split("lllllll")[0];
-    console.log(proyectoid);
+    //console.log(proyectoid);
     var nombre_ofertas = proyectoidynombre.split("lllllll")[1];
-    console.log(nombre_ofertas);
+    //console.log(nombre_ofertas);
     //proyectoCtrl.delete({        name: "Mercadona"    });
     //var lista_ofertas = await proyectoCtrl.list();
     //console.log("AQUI VIENE LA LISTA");
@@ -96,7 +100,7 @@ exports.aplicaroferta = async (req, res, next) => {
     }
     else {
         var filter = { proyecto_id: proyectoid, nombre_oferta: nombre_ofertas };
-        proyecto.aplicados.push(req.session.user.name);
+        proyecto.aplicados.push(req.session.user.nickname);
         console.log("PROYECTO APLICADOOOOS!");
         console.log(proyecto.aplicados);
         let doc = await Oferta.findOneAndUpdate(filter, proyecto, {
@@ -154,7 +158,7 @@ exports.desaplicaroferta = async (req, res, next) => {
 };
 
 exports.gestionarcandidatos = async (req, res, next) => {
-    console.log("desaplicar");
+    console.log("gestionarcandidatos");
     res.locals.user = req.session.user;
     var proyectoidynombre = req.params.proyectoidynombre;
     var proyectoid = proyectoidynombre.split("lllllll")[0];
@@ -168,12 +172,32 @@ exports.gestionarcandidatos = async (req, res, next) => {
     //res.locals.ofertas = ofertitas;
     var proyecto = await Oferta.findOne({ proyecto_id: proyectoid, nombre_oferta: nombre_ofertas });
     if (!proyecto) {
-        res.render('gestionarofertas', { layout: 'layout', template: 'home-template', error: "No se ha podido aplicar a la oferta" });
+        res.render('gestionarofertas', { layout: 'layout', template: 'home-template', error: "No se ha podido gestionar la oferta" });
     }
     else {
-        var filter = { proyecto_id: proyectoid, nombre_oferta: nombre_ofertas };
+        req.session.aplicados =[];
+        req.session.oferta = proyecto;
+        if(!(req.session.currentIndice))
+        {
+            req.session.currentIndice = 0;
+        }
         for( var i = 0; i < proyecto.aplicados.length; i++){ 
             req.session.aplicados[i]=proyecto.aplicados[i];
+        }
+        var candidato = await User.findOne({ nickname: req.session.aplicados[req.session.currentIndice]});
+        if (!candidato) {
+            res.render('gestionarofertas', { layout: 'layout', template: 'home-template', error: "No se ha podido encontrar el candidato" });
+        }else{
+            var user = {
+                nickname: candidato.nickname,
+                name: candidato.name,
+                email: candidato.email,
+                phone: candidato.phone,
+                role: candidato.role,
+                location: "Barcelona"
+            }
+            console.log(user);
+            req.candidato = user;
         }
         //if(req.isAPI) res.json(proyecto)
         next();

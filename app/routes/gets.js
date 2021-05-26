@@ -156,7 +156,7 @@ router.get('/desaplicaroferta/:proyectoidynombre', function (req, res, next) {
 //DOING
 router.get('/elegircandidatos/:proyectoidynombre', ofertaCtrl.gestionarcandidatos);
 router.get('/elegircandidatos/:proyectoidynombre', function (req, res, next) {
-    res.render('ofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas, proyecto: req.proyecto });
+    res.render('elegircandidatos', { layout: 'layout', template: 'home-template', user: req.candidato});
 });
 
 router.get("/crearoferta/:proyectoid", function (req, res, next) {
