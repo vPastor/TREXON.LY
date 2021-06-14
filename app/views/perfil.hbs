@@ -1,0 +1,46 @@
+<script type='text/javascript' src="/js/perfil.js"></script>
+<div class="main main-raised">
+	{{#if msg}}
+	<h3>{{msg}}</h3>
+	{{/if}}
+	<div class="profile-content">
+		<div class="container">
+			<form action="/updateprofile" method="POST">
+				<div class="row">
+
+					<div class="col-md-6 ml-auto mr-auto">
+						<div class="profile">
+							{{#if userprofile.photo}}
+							<div class="avatar">
+								<img src="{{userprofile.photo}}" alt="photo Image"
+									class="img-raised rounded-circle img-fluid">
+							</div>
+							{{else}}
+							<div class="avatar">
+								<img src="/default.jpg" alt="default Image" class="img-raised rounded-circle img-fluid">
+							</div>
+							{{/if}}
+							<input type="file" name="profileFile" accept="image/*" />
+							<div class="name">
+								<h3 class="title">{{user.name}}</h3>
+								<h6>{{user.role}}</h6>
+								<h6>{{user.email}}</h6>
+								<h3>Perfil</h3>
+								<h6>Experiencia</h6>
+								<textarea id="experiencia" name="experiencia" rows="4" cols="50">{{userprofile.experiencia}}</textarea>
+								<h6>Formacion</h6>
+								<textarea id="formacion" name="formacion" rows="4" cols="50">{{userprofile.formacion}}</textarea>
+								<h6>Intereses</h6>
+								<textarea id="intereses" name="intereses" rows="4" cols="50">{{userprofile.intereses}}</textarea>
+								<h6>Portfolio</h6>
+								<div class="form-group">
+									<button type="submit" class="btn btn-primary btn-block"> Update Profile </button>
+								</div> <!-- form-group// -->
+							</div>
+						</div>
+
+					</div>
+			</form>
+		</div>
+	</div>
+</div>

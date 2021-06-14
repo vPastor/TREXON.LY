@@ -2,37 +2,27 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // we create a user schema
-let userSchema = new Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  nickname: {
+let perfilSchema = new Schema({
+nickname: {
     type: String,
     required: true,
     unique: true
   },
-  email: {
+  foto: {
+    type: String
+  },
+  experiencia: {
+    type: String
+  },
+  formacion: {
     type: String,
-    required: true,
-    trim: true,
-    unique: true,
-    lowercase: true
   },
-  password: {
+  intereses: {
     type: String,
-    required: true
   },
-  phone: {
-    type: Number,
-    required: true
+  portfolio: {
+    type: [String]
   },
-  role: {
-    type: String,
-    required: true
-  },
-  passResetKey: String,
-  passKeyExpires: Number,
   createdAt: {
     type: Date,
     required: false
@@ -43,11 +33,7 @@ let userSchema = new Schema({
   },
 }, { runSettersOnQuery: true }); // 'runSettersOnQuery' is used to implement the specifications in our model schema such as the 'trim' option.
 
-userSchema.pre('save', function (next) {
-  this.email = this
-    .email
-    .toLowerCase(); // ensure email are in lowercase
-
+perfilSchema.pre('save', function (next) {
   var currentDate = new Date().getTime();
   this.updatedAt = currentDate;
   if (!this.created_at) {
@@ -56,10 +42,10 @@ userSchema.pre('save', function (next) {
   next();
 })
 
-var user = mongoose.model('user', userSchema);
+var perfil = mongoose.model('perfil', perfilSchema);
 
 
-module.exports = user;
+module.exports = perfil;
 
 
 

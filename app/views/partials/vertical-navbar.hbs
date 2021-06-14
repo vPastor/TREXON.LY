@@ -1,4 +1,14 @@
 {{#if verticalnavbar}}
+<div id="vertical">
+<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+  <a class="nav-link active"><center><b>Mis candidaturas</b></center></a>
+  <ul class="list-group">
+    {{#each verticalnavbar}}
+    <li><a class="nav-link" href="/proyecto/{{this.proyectoid}}">Proyecto : {{this.nombre_proyecto}}</a> <a class="nav-link" href="/verofertas/{{this.proyectoid}}">Oferta: {{this.nombre_oferta}}</a></li>
+    {{/each}}
+  </ul>
+</div>
+</div>
 {{else}}
 <div id="vertical">
 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">

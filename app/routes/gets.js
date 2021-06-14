@@ -47,6 +47,8 @@ router.get('/index', function (req, res) {
 // USER
 
 var userCtrl = require("../controllers/user.js");
+var perfilCtrlr = require("../controllers/perfil.js");
+var ofertCtrlr =  require("../controllers/oferta.js");
 //Create a route for create new user
 router.post("/create", userCtrl.register);
 router.post("/create", function (req, res, next) {
@@ -62,11 +64,14 @@ router.get('/register', function (req, res) {
 });
 
 router.post("/validate_login", userCtrl.login);
+router.post("/validate_login", perfilCtrlr.listprofile);
+router.post("/validate_login", ofertCtrlr.listAplicaciones);
 router.post("/validate_login", function (req, res, next) {
+    console.log(req.aplicaciones);
     req.session.user = req.user;
-    res.render('index', {
+    res.render('perfil', {
         layout: 'layout', template: 'home-template',
-        user: req.user
+        user: req.user, userprofile: req.profile, verticalnavbar:req.aplicaciones
     });
 });
 
@@ -130,7 +135,6 @@ router.get('/ofertas', ofertaCtrl.list);
 router.get('/ofertas', function (req, res, next) {
     res.render('ofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas });
 });
-router.get('/verofertas/:proyectoid', ofertaCtrl.listproyecto);
 router.get('/verofertas/:proyectoid', function (req, res) {
     res.render('ofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas });
 });
@@ -174,6 +178,25 @@ router.post("/crearoferta", function (req, res, next) {
 }
 );
 
+//PERFIL
+
+var perfilCtrl = require("../controllers/perfil.js");
+
+router.post('/updateprofile', perfilCtrl.profile);
+router.post('/updateprofile', ofertaCtrl.listAplicaciones);
+router.post('/updateprofile', function (req, res, next) {
+    res.render('perfil', { layout: 'layout', template: 'home-template', msg:"Perfil actualizado", user: req.session.user , userprofile: req.profile, verticalnavbar: req.aplicaciones});
+});
+router.get("/perfil", perfilCtrlr.listprofile);
+router.get("/perfil", ofertCtrlr.listAplicaciones);
+router.get("/perfil", function (req, res, next) {
+    //console.log(req.aplicaciones);
+    //req.session.user = req.user;
+    res.render('perfil', {
+        layout: 'layout', template: 'home-template',
+        user: req.session.user, userprofile: req.profile, verticalnavbar:req.aplicaciones
+    });
+});
 
 
 

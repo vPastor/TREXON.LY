@@ -42,6 +42,7 @@ exports.login = async (req, res, next) => {
         return resp;
     });*/
         req.user = user;
+        req.session.user = user;
         next();
     }
     

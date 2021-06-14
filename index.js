@@ -3,6 +3,8 @@ var Handlebars = require('handlebars');
 let hbs = require('express-handlebars');
 var express = require("express");
 var autoIncrement = require('mongoose-auto-increment');
+var fileUpload = require('express-fileupload');
+
 //VARIABLES DE ENVIROMENT
 var dotenv = require('dotenv');
 dotenv.config();
@@ -30,7 +32,8 @@ app.use(session(
     secret: 'ssshhhhht',
     saveUninitialized: true,
     resave: true
-  }));
+  }));  
+app.use(fileUpload());
 
 const port = process.env.PORT;
 var server = require("http")
