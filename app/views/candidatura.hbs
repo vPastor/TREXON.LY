@@ -1,0 +1,37 @@
+<center>
+  <div>{{ error_log }}</div>
+</center>
+<br>
+<br>
+<div id="content-query">
+  <section class="card">
+    <h2><b>GESTION DE CANDIDATOS</b></h2>
+    <h4>Proyecto: {{oferta.nombre_proyecto}} - Oferta: {{oferta.nombre_oferta}}</h4>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Estado</th>
+          <th scope="col">Ver perfil</th>
+          <th scope="col">Cambiar Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#if candidatos}}
+        {{#each candidatos }}
+        <tr>
+          <th scope="row">{{this.numero}}</th>
+          <td>{{this.nombre}}</td>
+          <td>{{this.estado}}</td>
+          <td><a href="/vercandidato/{{this.nickname}}">Ver perfil del candidato</a></td>
+          <td><a href="/cambiarestado/{{this.nickname}}">Cambiar estado</a></td>
+
+</tr>
+{{/each}}
+{{else}}
+<h3>Todavia no tienes aplicantes</h3>
+{{/if}}
+</section>
+</div>
+<br>

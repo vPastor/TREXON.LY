@@ -11,6 +11,6 @@ var ofertaSchema = new Schema({
     sueldo: {type: String},
     descripcion: { type: String},
     estado: { type: String},
-    aplicados: [String]
+    aplicados: [Object]
  });
  module.exports = mongoose.model("Oferta", ofertaSchema);

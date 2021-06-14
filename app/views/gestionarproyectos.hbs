@@ -10,7 +10,7 @@
     {{#each proyectos }}
     {{#if this.nombre_empresa}}
     <div class="divoferta">
-      <h5>Nombre de la Proyecto: {{ this.nombre_proyecto }}</h5>
+      <h5>Nombre del Proyecto: {{ this.nombre_proyecto }}</h5>
       <p>Empresa ofertante: {{ this.nombre_empresa }}</p>
       <p>Descripcion : {{this.descripcion}}</p>
       <form method="get" action="/editarproyecto/{{this.proyecto_id}}">

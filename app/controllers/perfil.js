@@ -1,6 +1,7 @@
 //import model
 var Perfil = require('../models/Perfil.js');
 const path = require("path");
+
 /**
  * Function check if user and passwor exists in the database and do the login
  * if the validation is correct we create the query with the username and password
@@ -19,11 +20,8 @@ exports.listprofile = async function (req, res, next) {
         nickname: req.session.user.nickname
     });
     if (!perfil) {
-        res.render('perfil', {
-            layout: 'layout',
-            template: 'home-template',
-            msg: "Complete el perfil"
-        });
+        req.message = "Complete su perfil";
+        next();
     } else {
         var userprofile = {
             nickname: perfil.nickname,
@@ -57,47 +55,58 @@ exports.profile = async function (req, res, next) {
     } else {
         console.log("llega foto");
         var profileFile = req.files.profileFile;
+        //var outputFile = req.session.user.nickname + profileFile.name;
+        /*sharp(profileFile).resize({ height: 254, width: 254 }).toFile(outputFile)
+            .then(function (newFileInfo) {
+                // newFileInfo holds the output file properties
+                console.log("Success")
+            })
+            .catch(function (err) {
+                console.log("Error occured resizing");
+                return res.status(500).send(err);
+            });*/
         //(path.join(path.dirname('/app/server/src/'), '/src/public/images/') + file.name)
-        var uploadPath = '/app/app/views/images/' + profileFile.name;
+        var uploadPath = '/app/app/views/images/' + req.session.user.nickname +profileFile.name;
         await profileFile.mv(uploadPath, function (err) {
             if (err) {
                 return res.status(500).send(err);
             } else {
-                fotito =true;
+                fotito = true;
             }
 
         });
     }
-    var fotasa;
-    if(fotito)
-    {
+    if (fotito) {
         usertocreate = {
-            nickname : req.session.user.nickname,
-        experiencia : req.body.experiencia,
-        formacion : req.body.formacion,
-        intereses : req.body.intereses,
-        portfolio : [],
-        foto: profileFile.name
+            nickname: req.session.user.nickname,
+            experiencia: req.body.experiencia,
+            formacion: req.body.formacion,
+            intereses: req.body.intereses,
+            portfolio: [],
+            foto:  req.session.user.nickname +profileFile.name
         }
-    }else{
+    } else {
         usertocreate = {
-            nickname : req.session.user.nickname,
-        experiencia : req.body.experiencia,
-        formacion : req.body.formacion,
-        intereses : req.body.intereses,
-        portfolio : [],
+            nickname: req.session.user.nickname,
+            experiencia: req.body.experiencia,
+            formacion: req.body.formacion,
+            intereses: req.body.intereses,
+            portfolio: [],
         }
 
     }
-    
-    
-    
-    console.log( req.session.user.nickname);
-    await Perfil.findOneAndUpdate({nickname: req.session.user.nickname}, usertocreate, function (err, perfil) {
+
+
+
+    console.log(req.session.user.nickname);
+    await Perfil.findOneAndUpdate({
+        nickname: req.session.user.nickname
+    }, usertocreate, function (err, perfil) {
         if (err || !perfil) {
             console.log(err);
             console.log(perfil);
-            /*usertocreate.save(function (err) {
+            var p = new Perfil(usertocreate);
+            p.save(function (err) {
                 if (err) {
                     console.log(err);
                     res.render('error', {
@@ -109,7 +118,7 @@ exports.profile = async function (req, res, next) {
                     req.perfil = usertocreate;
                     next();
                 }
-            });*/
+            });
         } else {
             req.perfil = usertocreate;
             next();

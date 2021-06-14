@@ -6,6 +6,7 @@ var Oferta = require("../models/Oferta");
 var Proyecto = require("../models/Proyecto");
 var User = require("../models/userModel");
 var bodyParser = require('body-parser');
+const Perfil = require('../models/Perfil');
 var contador = 0;
 // c) Controlador de asignaturas.js en la que aparezcan los métodos de listar, crear, 
 // editar y eliminar así como la conexión al correspondiente modelo con Mongoose. (4p)
@@ -112,7 +113,10 @@ exports.aplicaroferta = async (req, res, next) => {
             proyecto_id: proyectoid,
             nombre_oferta: nombre_ofertas
         };
-        proyecto.aplicados.push(req.session.user.nickname);
+        proyecto.aplicados.push({
+            "nickname": req.session.user.nickname,
+            estado: "recibido"
+        });
         console.log("PROYECTO APLICADOOOOS!");
         console.log(proyecto.aplicados);
         let doc = await Oferta.findOneAndUpdate(filter, proyecto, {
@@ -158,7 +162,7 @@ exports.desaplicaroferta = async (req, res, next) => {
         };
         for (var i = 0; i < proyecto.aplicados.length; i++) {
 
-            if (proyecto.aplicados[i] == req.session.user.nickname) {
+            if (proyecto.aplicados[i].nickname == req.session.user.nickname) {
                 console.log("se ha eliminado de los aplicados");
                 proyecto.aplicados.splice(i, 1);
             }
@@ -197,21 +201,23 @@ exports.listAplicaciones = async (req, res, next) => {
         });
     } else {
         proyecto.forEach(function (currentValue, index, array) {
-            if (currentValue.aplicados.includes(req.session.user.nickname)) {
-                aplicaciones[index] = {
-                    nombre_proyecto: currentValue.nombre_proyecto,
-                    nombre_oferta: currentValue.nombre_oferta,
-                    estado: currentValue.estado,
-                    proyecto_id: currentValue.proyecto_id
+            currentValue.aplicados.forEach(function (currentValue2, index, array) {
+                if (currentValue2.nickname == (req.session.user.nickname)) {
+                    aplicaciones.push({
+                        nombre_proyecto: currentValue.nombre_proyecto,
+                        nombre_oferta: currentValue.nombre_oferta,
+                        estado: currentValue2.estado,
+                        proyecto_id: currentValue.proyecto_id
+                    });
                 }
-            }
+            })
+
+
         });
-        if(!aplicaciones)
-        {
-            aplicaciones= true;
+        if (!aplicaciones) {
+            aplicaciones = true;
             req.aplicaciones = true;
-        }
-        else{
+        } else {
             req.aplicaciones = aplicaciones;
         }
 
@@ -226,9 +232,7 @@ exports.gestionarcandidatos = async (req, res, next) => {
     res.locals.user = req.session.user;
     var proyectoidynombre = req.params.proyectoidynombre;
     var proyectoid = proyectoidynombre.split("lllllll")[0];
-    console.log(proyectoid);
     var nombre_ofertas = proyectoidynombre.split("lllllll")[1];
-    console.log(nombre_ofertas);
     //proyectoCtrl.delete({        name: "Mercadona"    });
     //var lista_ofertas = await proyectoCtrl.list();
     //console.log("AQUI VIENE LA LISTA");
@@ -245,16 +249,64 @@ exports.gestionarcandidatos = async (req, res, next) => {
             error: "No se ha podido gestionar la oferta"
         });
     } else {
-        req.session.aplicados = [];
-        req.session.oferta = proyecto;
-        if (!(req.session.currentIndice)) {
+        //req.session.aplicados = [];
+        var ofertitas = {
+            nombre_proyecto: proyecto.nombre_proyecto,
+            nombre_oferta: proyecto.nombre_oferta,
+            proyecto_id: proyecto.proyecto_id,
+        };
+        req.oferta = ofertitas;
+        /*if (!(req.session.currentIndice)) {
             req.session.currentIndice = 0;
         }
         for (var i = 0; i < proyecto.aplicados.length; i++) {
-            req.session.aplicados[i] = proyecto.aplicados[i];
-        }
-        var candidato = await User.findOne({
-            nickname: req.session.aplicados[req.session.currentIndice]
+            req.session.aplicados[i].nickname = proyecto.aplicados[i].nickname;
+        }*/
+        var ofertantes = [];
+        proyecto.aplicados.forEach(async function (currentValue, index, array) {
+            console.log("Llega aqui");
+            var candidato = await User.findOne({
+                nickname: currentValue.nickname
+            });
+            var perfil = await Perfil.findOne({
+                nickname: currentValue.nickname
+            });
+            if (!candidato) {
+                res.render('gestionarofertas', {
+                    layout: 'layout',
+                    template: 'home-template',
+                    error: "No se ha podido encontrar el candidato"
+                });
+            } else if (!perfil) {
+                res.render('gestionarofertas', {
+                    layout: 'layout',
+                    template: 'home-template',
+                    error: "No se ha podido encontrar el perfil"
+                });
+            } else {
+                console.log("Legga hasta aqui");
+                console.log(index);
+                ofertantes[index] = {
+                    numero: index,
+                    nickname: candidato.nickname,
+                    nombre: candidato.name,
+                    email: candidato.email,
+                    phone: candidato.phone,
+                    estado: currentValue.estado
+                }
+                console.log(ofertantes);
+
+            }
+
+            
+
+        });
+        //proyecto.aplicados.forEach()
+        /*var candidatos = await User.findOne({
+            nickname: req.session.aplicados[req.session.currentIndice].nickname
+        });
+        var perfil = await Perfil.findOne({
+            nickname: req.session.aplicados[req.session.currentIndice].nickname
         });
         if (!candidato) {
             res.render('gestionarofertas', {
@@ -274,7 +326,8 @@ exports.gestionarcandidatos = async (req, res, next) => {
             console.log(user);
             req.candidato = user;
         }
-        //if(req.isAPI) res.json(proyecto)
+        //if(req.isAPI) res.json(proyecto)*/
+        req.candidatos = ofertantes;
         next();
     }
 
@@ -302,6 +355,16 @@ exports.findOne = async (req, res, next) => {
         });
     }
     console.log(proyecto);
+    var aplicado = false;
+    proyecto.forEach(function (currentValue, index, array) {
+        currentValue.aplicados.forEach(function (currentValue2, index, array) {
+            if (currentValue2.nickname == (req.session.user.nickname)) {
+                aplicado = true;
+            }
+        })
+
+
+    });
     var ofertitas = {
         nombre_empresa: proyecto.nombre_empresa,
         nombre_proyecto: proyecto.nombre_proyecto,
@@ -310,10 +373,10 @@ exports.findOne = async (req, res, next) => {
         estado: proyecto.estado,
         role: proyecto.role,
         experiencia: proyecto.experiencia,
-        sueldo: currentValue.sueldo,
+        sueldo: proyecto.sueldo,
         proyecto_id: proyecto.proyecto_id,
-        aplicados: currentValue.aplicados,
-        yo_aplicado: currentValue.aplicados.includes(req.session.user.nickname)
+        aplicados: proyecto.aplicados,
+        yo_aplicado: aplicado
     };
 
     req.proyecto = ofertitas;
@@ -376,6 +439,13 @@ exports.listproyecto = async (req, res, next) => {
         }
         oferta.forEach(function (currentValue, index, array) {
             var aplicado = false;
+
+            currentValue.aplicados.forEach(function (currentValue2, index, array) {
+                if (currentValue2.nickname == (req.session.user.nickname)) {
+                    aplicado = true;
+                }
+            });
+
             ofertitas[index] = {
                 nombre_empresa: currentValue.nombre_empresa,
                 nombre_proyecto: currentValue.nombre_proyecto,
@@ -387,7 +457,7 @@ exports.listproyecto = async (req, res, next) => {
                 experiencia: currentValue.experiencia,
                 proyecto_id: currentValue.proyecto_id,
                 aplicados: currentValue.aplicados,
-                yo_aplicado: currentValue.aplicados.includes(req.session.user.nickname)
+                yo_aplicado: aplicado
             }
         });
         console.log("Lo que viene de la base de datos "),

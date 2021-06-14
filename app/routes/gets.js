@@ -67,11 +67,13 @@ router.post("/validate_login", userCtrl.login);
 router.post("/validate_login", perfilCtrlr.listprofile);
 router.post("/validate_login", ofertCtrlr.listAplicaciones);
 router.post("/validate_login", function (req, res, next) {
+
     console.log(req.aplicaciones);
+    console.log( req.user);
     req.session.user = req.user;
     res.render('perfil', {
         layout: 'layout', template: 'home-template',
-        user: req.user, userprofile: req.profile, verticalnavbar:req.aplicaciones
+        user: req.session.user, userprofile: req.profile, verticalnavbar:req.aplicaciones, msg:req.message
     });
 });
 
@@ -162,7 +164,7 @@ router.get('/desaplicaroferta/:proyectoidynombre', function (req, res, next) {
 //DOING
 router.get('/elegircandidatos/:proyectoidynombre', ofertaCtrl.gestionarcandidatos);
 router.get('/elegircandidatos/:proyectoidynombre', function (req, res, next) {
-    res.render('elegircandidatos', { layout: 'layout', template: 'home-template', user: req.candidato});
+    res.render('candidatura', { layout: 'layout', template: 'home-template', candidatos: req.candidatos, oferta: req.oferta});
 });
 
 router.get("/crearoferta/:proyectoid", function (req, res, next) {
@@ -187,7 +189,7 @@ var perfilCtrl = require("../controllers/perfil.js");
 router.post('/updateprofile', perfilCtrl.profile);
 router.post('/updateprofile', ofertaCtrl.listAplicaciones);
 router.post('/updateprofile', function (req, res, next) {
-    res.render('perfil', { layout: 'layout', template: 'home-template', msg:"Perfil actualizado", user: req.session.user , userprofile: req.profile, verticalnavbar: req.aplicaciones});
+    res.render('perfil', { layout: 'layout', template: 'home-template', msg:"Perfil actualizado", user: req.session.user , userprofile: req.perfil, verticalnavbar: req.aplicaciones});
 });
 router.get("/perfil", perfilCtrlr.listprofile);
 router.get("/perfil", ofertCtrlr.listAplicaciones);

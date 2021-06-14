@@ -13,11 +13,11 @@
 							{{#if userprofile.foto}}
 							<div class="avatar">
 								<img src="/{{userprofile.foto}}" alt="photo Image"
-									class="img-raised rounded-circle img-fluid">
+									class="img-raised rounded-circle img-fluid profile-pic">
 							</div>
 							{{else}}
 							<div class="avatar">
-								<img src="/default.jpg" alt="default Image" class="img-raised rounded-circle img-fluid">
+								<img src="/default.jpg" alt="default Image" class="img-raised rounded-circle img-fluid profile-pic">
 							</div>
 							{{/if}}
 							<input type="file" name="profileFile" accept="image/*" />
@@ -44,3 +44,13 @@
 		</div>
 	</div>
 </div>
+ <style type="text/css">
+ .profile-pic
+ { 
+  	width: 254;
+  	height: 254;
+
+ }
+
+
+</style>	

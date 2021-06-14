@@ -9,10 +9,10 @@ exports.create = async (req, res, next) => {
     console.log("el user");
     console.log(req.session.user);
     var query = {
-        nombre_empresa: req.session.user.name,
+        nombre_empresa: req.session.user.nickname,
         nombre_proyecto: req.body.nombre_proyecto,
         descripcion: req.body.descripcion,
-        proyecto_id: req.session.user.name+req.body.nombre_proyecto,
+        proyecto_id: req.session.user.nickname+req.body.nombre_proyecto,
         estado: "abierto",
     };    
     var proyecto = new Proyecto(query);
@@ -85,12 +85,13 @@ exports.findOne = async (req, res, next) => {
 exports.listOwn = async (req, res, next) => {
     var ofertitas = [];
     res.locals.user = req.session.user;
+    console.log(req.session.user.nickname);
     //proyectoCtrl.delete({        name: "Mercadona"    });
     //var lista_ofertas = await proyectoCtrl.list();
     //console.log("AQUI VIENE LA LISTA");
     /**/
     //res.locals.ofertas = ofertitas;
-    var proyecto = await Proyecto.find({ nombre_empresa: req.session.user.name });
+    var proyecto = await Proyecto.find({ nombre_empresa: req.session.user.nickname });
     proyecto.forEach(function (currentValue, index, array) {
         ofertitas[index] = {
             nombre_empresa: currentValue.nombre_empresa,
