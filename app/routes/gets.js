@@ -135,6 +135,8 @@ router.get('/ofertas', ofertaCtrl.list);
 router.get('/ofertas', function (req, res, next) {
     res.render('ofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas });
 });
+//VER OFERTAS
+router.get('/verofertas/:proyectoid', ofertaCtrl.listproyecto);
 router.get('/verofertas/:proyectoid', function (req, res) {
     res.render('ofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas });
 });

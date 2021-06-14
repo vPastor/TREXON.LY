@@ -1,5 +1,6 @@
 //import model
 var Perfil = require('../models/Perfil.js');
+const path = require("path");
 /**
  * Function check if user and passwor exists in the database and do the login
  * if the validation is correct we create the query with the username and password
@@ -46,42 +47,84 @@ exports.listprofile = async function (req, res, next) {
  * if the validation is correct we create a new user object and the 
  * we insert in the database
  */
-exports.profile = function (req, res, next) {
-    var usertocreate = new Perfil();
-    usertocreate.nickname = req.session.user.nickname;
-    usertocreate.experiencia = req.body.experiencia;
-        usertocreate.formacion = req.body.formacion;
-        usertocreate.intereses = req.body.intereses;
-        usertocreate.portfolio = [];
-        Perfil.findOneAndUpdate({ nickname: req.session.nickname }, usertocreate, function (err, perfil) {
+exports.profile = async function (req, res, next) {
+    var fotito = true;
+    var usertocreate;
+    console.log(req.files);
+    if (!req.files || Object.keys(req.files).length == 0) {
+        fotito = false;
+        console.log("no llega foto");
+    } else {
+        console.log("llega foto");
+        var profileFile = req.files.profileFile;
+        //(path.join(path.dirname('/app/server/src/'), '/src/public/images/') + file.name)
+        var uploadPath = '/app/app/views/images/' + profileFile.name;
+        await profileFile.mv(uploadPath, function (err) {
+            if (err) {
+                return res.status(500).send(err);
+            } else {
+                fotito =true;
+            }
+
+        });
+    }
+    var fotasa;
+    if(fotito)
+    {
+        usertocreate = {
+            nickname : req.session.user.nickname,
+        experiencia : req.body.experiencia,
+        formacion : req.body.formacion,
+        intereses : req.body.intereses,
+        portfolio : [],
+        foto: profileFile.name
+        }
+    }else{
+        usertocreate = {
+            nickname : req.session.user.nickname,
+        experiencia : req.body.experiencia,
+        formacion : req.body.formacion,
+        intereses : req.body.intereses,
+        portfolio : [],
+        }
+
+    }
+    
+    
+    
+    console.log( req.session.user.nickname);
+    await Perfil.findOneAndUpdate({nickname: req.session.user.nickname}, usertocreate, function (err, perfil) {
         if (err || !perfil) {
-            usertocreate.save(function (err) {
+            console.log(err);
+            console.log(perfil);
+            /*usertocreate.save(function (err) {
                 if (err) {
                     console.log(err);
                     res.render('error', {
-                        layout: 'layout', template: 'home-template', message: err
+                        layout: 'layout',
+                        template: 'home-template',
+                        message: err
                     });
                 } else {
                     req.perfil = usertocreate;
                     next();
                 }
-            });
-        }
-        else {
+            });*/
+        } else {
             req.perfil = usertocreate;
             next();
         }
     });
 };
-    
-
-        //hay que hacer la imagen importandola y guardandola en public
-        //si nos flipamos, podemos pedir el CV, y poder acceder a el desde la vista
-        //tambien importar los proyectos
 
 
+//hay que hacer la imagen importandola y guardandola en public
+//si nos flipamos, podemos pedir el CV, y poder acceder a el desde la vista
+//tambien importar los proyectos
 
-        //create a new user object
+
+
+//create a new user object
 
 /**
  * Function that removes a user from the user's name.

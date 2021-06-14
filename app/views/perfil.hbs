@@ -5,14 +5,14 @@
 	{{/if}}
 	<div class="profile-content">
 		<div class="container">
-			<form action="/updateprofile" method="POST">
+			<form action="/updateprofile" method="POST" enctype="multipart/form-data">
 				<div class="row">
 
 					<div class="col-md-6 ml-auto mr-auto">
 						<div class="profile">
-							{{#if userprofile.photo}}
+							{{#if userprofile.foto}}
 							<div class="avatar">
-								<img src="{{userprofile.photo}}" alt="photo Image"
+								<img src="/{{userprofile.foto}}" alt="photo Image"
 									class="img-raised rounded-circle img-fluid">
 							</div>
 							{{else}}

@@ -83,6 +83,7 @@ exports.list = async (req, res, next) => {
     next();
 };
 
+
 exports.aplicaroferta = async (req, res, next) => {
     console.log("aplicar");
     res.locals.user = req.session.user;

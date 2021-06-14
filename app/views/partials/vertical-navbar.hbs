@@ -4,7 +4,7 @@
   <a class="nav-link active"><center><b>Mis candidaturas</b></center></a>
   <ul class="list-group">
     {{#each verticalnavbar}}
-    <li><a class="nav-link" href="/proyecto/{{this.proyectoid}}">Proyecto : {{this.nombre_proyecto}}</a> <a class="nav-link" href="/verofertas/{{this.proyectoid}}">Oferta: {{this.nombre_oferta}}</a></li>
+    <li class="vertical_li"><a class="nav-link " href="/proyecto/{{this.proyecto_id}}">Proyecto : {{this.nombre_proyecto}}</a> <a class="nav-link" href="/verofertas/{{this.proyecto_id}}">Oferta: {{this.nombre_oferta}}</a></li>
     {{/each}}
   </ul>
 </div>
@@ -14,7 +14,7 @@
 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
   <a class="nav-link active"><center><b>Some usefull webs:</b></center></a>
   <ul class="list-group">
-    <li><a class="nav-link" href="http://www.https://www.facebook.com/">Facebook</a></li>
+    <li><a class="nav-link  " href="http://www.https://www.facebook.com/">Facebook</a></li>
     <li><a class="nav-link" href="https://github.com/vPastor/TREXON.LY">GitHub</a></li>
     <li><a class="nav-link" href="https://www.instagram.com/">Instagram</a></li>
     <li><a class="nav-link" href="https://www.linkedin.com/feed/">Linkedin</a></li>
@@ -25,3 +25,11 @@
 </div>
 {{/if}}
 
+ <style type="text/css">
+ .vertical_li
+ { 
+  border: 1px solid black;
+ }
+
+
+</style>
