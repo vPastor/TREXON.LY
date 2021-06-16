@@ -99,8 +99,15 @@ router.get('/proyecto/:ernombre', function (req, res, next) {
 
 router.get('/editarproyecto/:ernombre', proyectoCtrl.findOne);
 router.get('/editarproyecto/:ernombre', function (req, res, next) {
-    res.render('editaroferta', { layout: 'layout', template: 'home-template', proyectos: req.proyecto });
+    res.render('editarproyecto', { layout: 'layout', template: 'home-template', proyectos: req.proyecto });
 });
+
+router.post('/editarproyecto/:ernombre', proyectoCtrl.updateone);
+router.post('/editarproyecto/:ernombre', proyectoCtrl.findOne);
+router.post('/editarproyecto/:ernombre', function (req, res, next) {
+    res.render('proyectos', { layout: 'layout', template: 'home-template', proyectos: req.proyecto });
+});
+
 
 router.get('/gestionarproyectos', proyectoCtrl.listOwn);
 router.get('/gestionarproyectos', function (req, res, next) {
@@ -150,11 +157,22 @@ router.get('/gestionaraplicantes', function (req, res, next) {
     res.render('elegircandidatos', { layout: 'layout', template: 'home-template', verticalnavbar:true });
 });
 
+router.get('/editaroferta/:proyectoid/:nombreoferta', ofertaCtrl.findOne);
+router.get('/editaroferta/:proyectoid/:nombreoferta', function (req, res, next) {
+    res.render('editaroferta', { layout: 'layout', template: 'home-template', oferta: req.oferta });
+});
+router.post('/editaroferta/:proyectoid/:nombreoferta', ofertaCtrl.updateone);
+router.post('/editaroferta/:proyectoid/:nombreoferta', ofertaCtrl.listproyecto);
+router.post('/editaroferta/:proyectoid/:nombreoferta', function (req, res, next) {
+    res.render('gestionarofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas, proyecto: req.proyecto });
+});
+
 router.get('/aplicaroferta/:proyectoidynombre', ofertaCtrl.aplicaroferta);
 router.get('/aplicaroferta/:proyectoidynombre', ofertaCtrl.list);
 router.get('/aplicaroferta/:proyectoidynombre', function (req, res, next) {
     res.render('ofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas, proyecto: req.proyecto });
 });
+
 
 router.get('/desaplicaroferta/:proyectoidynombre', ofertaCtrl.desaplicaroferta);
 router.get('/desaplicaroferta/:proyectoidynombre', ofertaCtrl.list);
@@ -167,9 +185,16 @@ router.get('/elegircandidatos/:proyectoidynombre', function (req, res, next) {
     res.render('candidatura', { layout: 'layout', template: 'home-template', candidatos: req.candidatos, oferta: req.oferta});
 });
 
+router.post('/actualizarestado/:proyectoidynombre', ofertaCtrl.actualizarestado);
+router.post('/actualizarestado/:proyectoidynombre', ofertaCtrl.gestionarcandidatos);
+router.post('/actualizarestado/:proyectoidynombre', function (req, res, next) {
+    res.render('candidatura', { layout: 'layout', template: 'home-template', candidatos: req.candidatos, oferta: req.oferta});
+});
+
+
 router.get("/crearoferta/:proyectoid", function (req, res, next) {
     res.render('crearoferta', {
-        layout: 'layout', template: 'home-template', proyecto: req.session.proyecto
+        layout: 'layout', template: 'home-template', proyecto: req.session.proyecto, user: req.session.user
     });
 }
 );
@@ -177,7 +202,7 @@ router.get("/crearoferta/:proyectoid", function (req, res, next) {
 router.post("/crearoferta", ofertaCtrl.create);
 router.post("/crearoferta", function (req, res, next) {
     res.render('gestionarofertas', {
-        layout: 'layout', template: 'home-template', ofertas: req.oferta, proyecto: req.session.proyecto
+        layout: 'layout', template: 'home-template', ofertas: req.oferta, proyecto: req.session.proyecto, user: req.session.user
     });
 }
 );
@@ -194,15 +219,19 @@ router.post('/updateprofile', function (req, res, next) {
 router.get("/perfil", perfilCtrlr.listprofile);
 router.get("/perfil", ofertCtrlr.listAplicaciones);
 router.get("/perfil", function (req, res, next) {
-    //console.log(req.aplicaciones);
-    //req.session.user = req.user;
     res.render('perfil', {
         layout: 'layout', template: 'home-template',
         user: req.session.user, userprofile: req.profile, verticalnavbar:req.aplicaciones
     });
 });
 
-
+router.get("/vercandidato/:nickname", perfilCtrlr.listprofiles);
+router.get("/vercandidato/:nickname", function (req, res, next) {
+    res.render('verperfil', {
+        layout: 'layout', template: 'home-template',
+        user: req.candidato, userprofile: req.profile
+    });
+});
 
 
 module.exports = router;

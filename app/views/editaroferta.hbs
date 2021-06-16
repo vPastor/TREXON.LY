@@ -4,43 +4,40 @@
 		<div class="col-6">
 			<article class="card-body mx-auto">
 				<h4 class="card-title mt-3 text-center">Editar Oferta</h4>
-				<form action="/editaroferta" method="PUT">
+				<form action="/editaroferta/{{oferta.proyecto_id}}/{{oferta.nombre_oferta}}" method="POST">
 					<div class="form-group input-group">
 						<div class="input-group-prepend">
-							<span class="input-group-text"> <i class="fa fa-user"></i> </span>
+							<span class="input-group-text"> </span>
 						</div>
-						<input name="fullname" class="form-control" placeholder="Full name" type="text" value="{{ofertas.name}}">
+						<input name="nombre_oferta" class="form-control" placeholder="Nombre oferta" size="60" value="{{oferta.nombre_oferta}}"
+							type="text">
 					</div> <!-- form-group// -->
 					<div class="form-group input-group">
 						<div class="input-group-prepend">
-							<span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+							<span class="input-group-text"> </span>
 						</div>
-						<input name="description" class="form-control" placeholder="Descripcion del proyecto" size="60"
-							type="text" value="{{ofertas.descripcion}}">
+						<textarea rows="4" cols="50" name="descripcion" class="form-control" placeholder="Descripcion de la oferta">{{oferta.descripcion}}</textarea>
+						
+					</div> <!-- form-group// --><select name="role" class="form-control">
+						<option value="Fotografo">Fotografo</option>
+						<option value="Diseniador">Diseñador</option>
+						<option value="Publicista">Publicista</option>
+						<option value="Programador">Programador</option>
+					</select>
+					<div class="form-group input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"> </span>
+						</div>
+						<input name="experiencia" class="form-control" placeholder="Experiencia" type="text"  value="{{oferta.experiencia}}">
 					</div> <!-- form-group// -->
-					<div class="input-group mb-3">
-						<span class="input-group-text" id="fotografolabel">Fotografo</span>
-						<input type="number" name="numf" class="form-control" placeholder="Numero de fotografos requeridos"
-							aria-label="Username" aria-describedby="fotografolabel" value="{{ofertas.fotografos}}">
-						<div class="input-group mb-3">
-							<span class="input-group-text" id="diseniadorlabel">Diseñador</span>
-							<input type="number" name="numd" class="form-control" placeholder="Numero de Diseñadores requeridos"
-								aria-label="Username" aria-describedby="diseniadorlabel" value="{{ofertas.diseniador}}">
+					<div class="form-group input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">  </span>
 						</div>
-						<div class="input-group mb-3">
-							<span class="input-group-text" id="programadorlabel">Programador</span>
-							<input type="number" name="nump" class="form-control" placeholder="Numero de Programadores requeridos"
-								aria-label="Username" aria-describedby="programadorlabel" value="{{ofertas.programador}}">
-						</div>
-						<div class="input-group mb-3">
-							<span class="input-group-text" id="publicistalabel">Publicista</span>
-							<input type="number" name="numpub" class="form-control" placeholder="Numero de Publicistas requeridos"
-								aria-label="Username" aria-describedby="publicistalabel" value="{{ofertas.publicista}}">
-						</div>
-					</div><!-- form-group end.// -->
-					
+						<input name="sueldo" class="form-control" placeholder="Sueldo" type="text" value="{{oferta.sueldo}}">
+					</div> <!-- form-group// -->
 					<div class="form-group">
-						<button type="submit" class="btn btn-primary btn-block"> Crear proyecto </button>
+						<button type="submit" class="btn btn-primary btn-block"> Crear Oferta </button>
 					</div> <!-- form-group// -->
 				</form>
 				{{#if errors}}

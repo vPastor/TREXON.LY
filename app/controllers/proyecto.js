@@ -1,5 +1,7 @@
 var mongooose = require('mongoose');
-const { nextTick } = require('process');
+const {
+    nextTick
+} = require('process');
 var Proyecto = require("../models/Proyecto");
 
 // c) Controlador de asignaturas.js en la que aparezcan los métodos de listar, crear, 
@@ -12,24 +14,24 @@ exports.create = async (req, res, next) => {
         nombre_empresa: req.session.user.nickname,
         nombre_proyecto: req.body.nombre_proyecto,
         descripcion: req.body.descripcion,
-        proyecto_id: req.session.user.nickname+req.body.nombre_proyecto,
+        proyecto_id: req.session.user.nickname + req.body.nombre_proyecto,
         estado: "abierto",
-    };    
+    };
     var proyecto = new Proyecto(query);
     var res = await proyecto.save((err, res) => {
         if (err) {
             console.log(err);
             res.render('crearoferta', {
-                layout: 'layout', template: 'home-template',
+                layout: 'layout',
+                template: 'home-template',
                 salida: "No se ha podido crear correctamente el proyecto, intente de nuevo"
             });
-        }
-        else {
+        } else {
             console.log("INSERTADO EN LA DB");
             console.log(res);
             req.proyecto = proyecto;
             next();
-            
+
         }
 
     });
@@ -67,7 +69,9 @@ exports.findOne = async (req, res, next) => {
     //console.log("AQUI VIENE LA LISTA");
     /**/
     //res.locals.ofertas = ofertitas;
-    var proyecto = await Proyecto.findOne({ proyecto_id: proyectoid });
+    var proyecto = await Proyecto.findOne({
+        proyecto_id: proyectoid
+    });
     var ofertitas = {
         proyecto_id: proyecto.proyecto_id,
         nombre_empresa: proyecto.nombre_empresa,
@@ -81,6 +85,38 @@ exports.findOne = async (req, res, next) => {
     //if(req.isAPI) res.json(proyecto)
     next();
 };
+exports.updateone = async (req, res, next) => {
+    var proyectoid = req.params.ernombre;
+    res.locals.user = req.session.user;
+    var query = {
+        nombre_proyecto: req.body.nombre_proyecto,
+        descripcion: req.body.descripcion,
+        estado: "abierto",
+    };
+    //proyectoCtrl.delete({        name: "Mercadona"    });
+    //var lista_ofertas = await proyectoCtrl.list();
+    //console.log("AQUI VIENE LA LISTA");
+    /**/
+    //res.locals.ofertas = ofertitas;
+    await Proyecto.findOneAndUpdate({
+        proyecto_id: proyectoid
+    }, query, function (err, proyecto) {
+        if (err || !proyecto) {
+            console.log(err);
+            console.log(proyecto);
+            res.render('proyectos', {
+                layout: 'layout',
+                template: 'home-template',
+                salida: "NO SE HA PODIDO ACTUALIZAR EL PROYECTO",
+                msg:"NO SE HA PODIDO ACTUALIZAR EL PROYECTO",
+                error: err
+            });
+        } 
+    });
+    //if(req.isAPI) res.json(proyecto)
+    next();
+};
+
 
 exports.listOwn = async (req, res, next) => {
     var ofertitas = [];
@@ -91,7 +127,9 @@ exports.listOwn = async (req, res, next) => {
     //console.log("AQUI VIENE LA LISTA");
     /**/
     //res.locals.ofertas = ofertitas;
-    var proyecto = await Proyecto.find({ nombre_empresa: req.session.user.nickname });
+    var proyecto = await Proyecto.find({
+        nombre_empresa: req.session.user.nickname
+    });
     proyecto.forEach(function (currentValue, index, array) {
         ofertitas[index] = {
             nombre_empresa: currentValue.nombre_empresa,

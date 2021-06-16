@@ -3,23 +3,23 @@
 	<div class="row justify-content-center">
 		<div class="col-6">
 			<article class="card-body mx-auto">
-				<h4 class="card-title mt-3 text-center">Crear Proyecto</h4>
-				<form action="/crearproyecto" method="POST">
+				<h4 class="card-title mt-3 text-center">Editar Proyecto</h4>
+				<form action="/editarproyecto/{{proyectos.proyecto_id}}" method="POST">
 					<div class="form-group input-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"></span>
 						</div>
-						<input name="nombre_proyecto" class="form-control" placeholder="Nombre del proyecto"
+						<input name="nombre_proyecto" class="form-control" placeholder="Nombre del proyecto" value="{{proyectos.nombre_proyecto}}"
 							type="text">
 					</div> <!-- form-group// -->
 					<div class="form-group input-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"></span>
 						</div>
-						<textarea name="descripcion" class="form-control" placeholder="Descripcion del proyecto" rows="4" cols="50"></textarea>
+						<textarea name="descripcion" class="form-control" placeholder="Descripcion del proyecto" rows="4" cols="50">{{proyectos.descripcion}}</textarea>
 					</div> <!-- form-group// -->
 					<div class="form-group">
-						<button type="submit" class="btn btn-primary btn-block"> Crear Proyecto </button>
+						<button type="submit" class="btn btn-primary btn-block"> Actualizar Proyecto </button>
 					</div> <!-- form-group// -->
 				</form>
 				{{#if errors}}

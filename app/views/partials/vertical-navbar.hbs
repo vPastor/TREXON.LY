@@ -4,7 +4,7 @@
   <a class="nav-link active"><center><b>Mis candidaturas</b></center></a>
   <ul class="list-group">
     {{#each verticalnavbar}}
-    <li class="vertical_li"><a class="nav-link " href="/proyecto/{{this.proyecto_id}}">Proyecto : {{this.nombre_proyecto}}</a> <a class="nav-link" href="/verofertas/{{this.proyecto_id}}">Oferta: {{this.nombre_oferta}}</a></li>
+    <li class="vertical_li"><a class="nav-link " href="/proyecto/{{this.proyecto_id}}">Proyecto : {{this.nombre_proyecto}}</a> <a class="nav-link" href="/verofertas/{{this.proyecto_id}}">Oferta: {{this.nombre_oferta}}</a><br>Estado: {{this.estado}}</li>
     {{/each}}
   </ul>
 </div>

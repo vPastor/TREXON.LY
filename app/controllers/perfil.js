@@ -1,6 +1,7 @@
 //import model
 var Perfil = require('../models/Perfil.js');
 const path = require("path");
+var User = require('../models/userModel.js');
 
 /**
  * Function check if user and passwor exists in the database and do the login
@@ -35,7 +36,45 @@ exports.listprofile = async function (req, res, next) {
         next();
     }
 };
-
+exports.listprofiles = async function (req, res, next) {
+    var perfil = await Perfil.findOne({
+        nickname: req.params.nickname
+    });
+    if (!perfil) {
+        req.message = "Esta persona no ha completado su perfil";
+    } else {
+        var userprofile = {
+            nickname: perfil.nickname,
+            experiencia: perfil.experiencia,
+            formacion: perfil.formacion,
+            intereses: perfil.intereses,
+            portfolio: perfil.portfolio,
+            foto: perfil.foto
+        }
+        req.profile = userprofile;
+        
+    }
+    var resp = await User.findOne({
+        nickname: req.params.nickname
+    });
+    if (!resp) {
+        req.message = "No se ha podido encontrar este candidato";
+    } else {
+        var user = {
+            nickname: resp.nickname,
+            name: resp.name,
+            email: resp.email,
+            phone: resp.phone,
+            role: resp.role,
+            location: "Barcelona"
+        }
+        req.candidato = user;
+        req.profile = userprofile;
+        
+    }
+    req.
+    next();
+};
 //
 /**
  * Function that receives all fields from the registration form,

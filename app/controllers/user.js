@@ -162,7 +162,7 @@ exports.update = function (req, res) {
         });
     }
     else {
-        User.findOneAndUpdate({ name: req.body.fullname }, req.body, function (err, user) {
+        User.findOneAndUpdate({ nickname: req.session.user.nickname }, req.body, function (err, user) {
 
             if (err || !user) {
                 res.render('update', {

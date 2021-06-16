@@ -1,0 +1,55 @@
+<script type='text/javascript' src="/js/perfil.js"></script>
+<div class="main main-raised">
+	{{#if msg}}
+	<h3>{{msg}}</h3>
+	{{/if}}
+	<div class="profile-content">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 ml-auto mr-auto">
+					<div class="profile">
+						{{#if userprofile.foto}}
+						<div class="avatar">
+							<img src="/{{userprofile.foto}}" alt="photo Image"
+								class="img-raised rounded-circle img-fluid profile-pic">
+						</div>
+						{{else}}
+						<div class="avatar">
+							<img src="/default.jpg" alt="default Image"
+								class="img-raised rounded-circle img-fluid profile-pic">
+						</div>
+						{{/if}}
+						<div class="name">
+							<h3 class="title">{{user.name}}</h3>
+							<h6>{{user.role}}</h6>
+							<h6>{{user.email}}</h6>
+							<h3>Perfil</h3>
+							<h6>Experiencia</h6>
+							<textarea id="experiencia" name="experiencia" rows="4" cols="50"
+								readonly>{{userprofile.experiencia}}</textarea>
+							<h6>Formacion</h6>
+							<textarea id="formacion" name="formacion" rows="4" cols="50"
+								readonly>{{userprofile.formacion}}</textarea>
+							<h6>Intereses</h6>
+							<textarea id="intereses" name="intereses" rows="4" cols="50"
+								readonly>{{userprofile.intereses}}</textarea>
+							<h6>Portfolio</h6>
+							<button onclick="goBack()">Volver</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<style type="text/css">
+		.profile-pic {
+			width: 254;
+			height: 254;
+
+		}
+	</style>
+	<script>
+		function goBack() {
+			window.history.back();
+		}
+	</script>

@@ -19,10 +19,6 @@
       <p>Descripcion : {{this.descripcion}}</p>
       <p>Experiencia : {{this.experiencia}}</p>
       <p>Sueldo : {{this.sueldo}}</p>
-      <form method="get" action="/eliminaroferta/{{this.proyecto_id}}/{{this.nombre_oferta}}">
-        <button class="btn btn-success btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top"
-          title="Edit">Eliminar oferta<i class="fa fa-edit"></i></button>
-      </form>
       <form method="get" action="/editaroferta/{{this.proyecto_id}}/{{this.nombre_oferta}}">
         <button class="btn btn-success btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top"
           title="Edit">EDIT <i class="fa fa-edit"></i></button>

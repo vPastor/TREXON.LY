@@ -3,11 +3,11 @@
 </center>
 <br>
 <br>
-<div id="content-query">
+<div id="content-query" onload="myFunction()">
   <section class="card">
     <h2><b>GESTION DE CANDIDATOS</b></h2>
     <h4>Proyecto: {{oferta.nombre_proyecto}} - Oferta: {{oferta.nombre_oferta}}</h4>
-    <table class="table">
+    <table>
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -18,20 +18,57 @@
         </tr>
       </thead>
       <tbody>
+        <form action="/actualizarestado/{{oferta.proyecto_id}}lllllll{{oferta.nombre_oferta}}" method="post">
         {{#if candidatos}}
         {{#each candidatos }}
-        <tr>
-          <th scope="row">{{this.numero}}</th>
-          <td>{{this.nombre}}</td>
-          <td>{{this.estado}}</td>
-          <td><a href="/vercandidato/{{this.nickname}}">Ver perfil del candidato</a></td>
-          <td><a href="/cambiarestado/{{this.nickname}}">Cambiar estado</a></td>
+        
+          <tr>
+            <th scope="row">{{this.numero}}</th>
+            <td>{{this.nombre}}</td>
+            <td>{{this.estado}}</td>
+            <td><a href="/vercandidato/{{this.nickname}}" >Ver perfil del candidato</a></td>
+            <td><input type="radio" name="nickname" class="radio" value="{{this.nickname}}"></td>
 
-</tr>
-{{/each}}
-{{else}}
-<h3>Todavia no tienes aplicantes</h3>
-{{/if}}
-</section>
+          </tr>
+          {{/each}}
+      </tbody>
+    </table>
+    <div id="estado" style="display: block">
+      <h3>Estado Candidatura</h3>
+      <input type="radio" id="age1" name="estado" value="Recibido">
+      <label for="age1">Recibido</label><br>
+      <input type="radio" id="age2" name="estado" value="En proceso">
+      <label for="age2">En proceso</label><br>
+      <input type="radio" id="age3" name="estado" value="Descartado">
+      <label for="age3">Descartado</label><br>
+      <input type="radio" id="age4" name="estado" value="Pre-seleccionado">
+      <label for="age4">Pre-seleccionado</label><br>
+      <input type="radio" id="age5" name="estado" value="Seleccionado">
+      <label for="age5">Seleccionado</label><br><br>
+      <input type="submit" value="Submit">
+
+    </div>
+    </form>
+    {{else}}
+    <h3>Todavia no tienes aplicantes</h3>
+    {{/if}}
+  </section>
 </div>
 <br>
+<script>
+  function displaytabla() {
+    console.log("hoa");
+    document.getElementById("estado").style.display = "block";
+  }
+  function myFunction() 
+  {
+    console.log("holaa!");
+    var arr = document.getElementsByName("nickname");
+    
+    arr.forEach(function callback(currentValue, index, array) {
+    // tu iterador
+    currentValue.addEventListener("click", displaytabla);
+});
+
+};
+</script>

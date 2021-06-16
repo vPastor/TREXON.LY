@@ -1,0 +1,62 @@
+<div class="container">
+
+	<div class="row justify-content-center">
+		<div class="col-6">
+			<article class="card-body mx-auto">
+				<h4 class="card-title mt-3 text-center">Editar Oferta</h4>
+				<form action="/editaroferta" method="PUT">
+					<div class="form-group input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"> <i class="fa fa-user"></i> </span>
+						</div>
+						<input name="fullname" class="form-control" placeholder="Full name" type="text" value="{{ofertas.name}}">
+					</div> <!-- form-group// -->
+					<div class="form-group input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+						</div>
+						<input name="description" class="form-control" placeholder="Descripcion del proyecto" size="60"
+							type="text" value="{{ofertas.descripcion}}">
+					</div> <!-- form-group// -->
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="fotografolabel">Fotografo</span>
+						<input type="number" name="numf" class="form-control" placeholder="Numero de fotografos requeridos"
+							aria-label="Username" aria-describedby="fotografolabel" value="{{ofertas.fotografos}}">
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="diseniadorlabel">Diseñador</span>
+							<input type="number" name="numd" class="form-control" placeholder="Numero de Diseñadores requeridos"
+								aria-label="Username" aria-describedby="diseniadorlabel" value="{{ofertas.diseniador}}">
+						</div>
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="programadorlabel">Programador</span>
+							<input type="number" name="nump" class="form-control" placeholder="Numero de Programadores requeridos"
+								aria-label="Username" aria-describedby="programadorlabel" value="{{ofertas.programador}}">
+						</div>
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="publicistalabel">Publicista</span>
+							<input type="number" name="numpub" class="form-control" placeholder="Numero de Publicistas requeridos"
+								aria-label="Username" aria-describedby="publicistalabel" value="{{ofertas.publicista}}">
+						</div>
+					</div><!-- form-group end.// -->
+					
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary btn-block"> Crear proyecto </button>
+					</div> <!-- form-group// -->
+				</form>
+				{{#if errors}}
+				{{#each errors }}
+				<div class="col-9 alert alert-danger" role="alert">{{ this.msg }}</div>
+				{{/each}}
+				{{/if}}
+				{{#if message}}
+				<div class="col-6 alert alert-primary" role="alert">
+					{{ message }}
+				</div>
+				{{/if}}
+			</article>
+		</div>
+	</div>
+	<!-- card.// -->
+
+</div>
+<!--container end.//-->
