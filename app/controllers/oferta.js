@@ -1,25 +1,16 @@
 var mongooose = require('mongoose');
-const {
-    nextTick
-} = require('process');
 var Oferta = require("../models/Oferta");
 var Proyecto = require("../models/Proyecto");
 var User = require("../models/userModel");
 var bodyParser = require('body-parser');
 const Perfil = require('../models/Perfil');
-var contador = 0;
-// c) Controlador de asignaturas.js en la que aparezcan los métodos de listar, crear, 
-// editar y eliminar así como la conexión al correspondiente modelo con Mongoose. (4p)
+
+//FUNCION QUE CREA UNA OFERTA
 exports.create = async (req, res, next) => {
-    console.log("create");
     res.locals.user = req.session.user;
     res.locals.proyecto = req.session.proyecto;
     var p_id = req.session.proyecto.proyecto_id;
     var p_nombre = req.session.proyecto.nombre_proyecto;
-    console.log("el user");
-    console.log(req.session.user);
-    console.log("el nombre oferta");
-    console.log(req.body.nombre_oferta);
     var query = {
         nombre_empresa: req.session.user.name,
         nombre_oferta: req.body.nombre_oferta,
@@ -29,7 +20,7 @@ exports.create = async (req, res, next) => {
         sueldo: req.body.sueldo,
         descripcion: req.body.descripcion,
         proyecto_id: p_id,
-        estado: "abierto",
+        estado: "Abierto",
         aplicados: []
     };
     var oferta = new Oferta(query);
@@ -51,16 +42,10 @@ exports.create = async (req, res, next) => {
     });
 };
 
+//FUNCION QUE LISTA LAS OFERTAS
 exports.list = async (req, res, next) => {
     var ofertitas = [];
-    console.log("list");
     res.locals.user = req.session.user;
-    //proyectoCtrl.delete({        name: "Mercadona"    });
-    //var lista_ofertas = await proyectoCtrl.list();
-    //console.log("AQUI VIENE LA LISTA");
-    /**/
-    //res.locals.ofertas = ofertitas;
-
     var oferta = await Oferta.find({});
     oferta.forEach(function (currentValue, index, array) {
         var aplicado = false;
@@ -72,7 +57,6 @@ exports.list = async (req, res, next) => {
             }
             console.log(aplicado);
         })
-        //console.log(currentValue.nombre_empresa);
         ofertitas[index] = {
             nombre_empresa: currentValue.nombre_empresa,
             nombre_proyecto: currentValue.nombre_proyecto,
@@ -90,24 +74,15 @@ exports.list = async (req, res, next) => {
     req.ofertas = ofertitas;
     console.log("OFERTITAS!");
     console.log(ofertitas);
-    //if(req.isAPI) res.json(proyecto)
     next();
 };
 
-
+//FUNCION PARA QUE EL USUARIO EN SESSION APLIQUE A UNA OFERTA
 exports.aplicaroferta = async (req, res, next) => {
-    console.log("aplicar");
     res.locals.user = req.session.user;
     var proyectoidynombre = req.params.proyectoidynombre;
     var proyectoid = proyectoidynombre.split("lllllll")[0];
-    //console.log(proyectoid);
     var nombre_ofertas = proyectoidynombre.split("lllllll")[1];
-    //console.log(nombre_ofertas);
-    //proyectoCtrl.delete({        name: "Mercadona"    });
-    //var lista_ofertas = await proyectoCtrl.list();
-    //console.log("AQUI VIENE LA LISTA");
-    /**/
-    //res.locals.ofertas = ofertitas;
     var proyecto = await Oferta.findOne({
         proyecto_id: proyectoid,
         nombre_oferta: nombre_ofertas
@@ -127,34 +102,21 @@ exports.aplicaroferta = async (req, res, next) => {
             "nickname": req.session.user.nickname,
             estado: "recibido"
         });
-        console.log("PROYECTO APLICADOOOOS!");
-        console.log(proyecto.aplicados);
         let doc = await Oferta.findOneAndUpdate(filter, proyecto, {
             new: true
         });
-        console.log(doc);
         res.locals.mensaje = "Se ha aplicado a esta oferta correctamente!";
-
-        //if(req.isAPI) res.json(proyecto)
         next();
     }
 
 };
 
-
+//FUNCION PARA QUE EL USUARIO EN SESSION DESAPLIQUE A UNA OFERTA
 exports.desaplicaroferta = async (req, res, next) => {
-    console.log("desaplicar");
     res.locals.user = req.session.user;
     var proyectoidynombre = req.params.proyectoidynombre;
     var proyectoid = proyectoidynombre.split("lllllll")[0];
-    console.log(proyectoid);
     var nombre_ofertas = proyectoidynombre.split("lllllll")[1];
-    console.log(nombre_ofertas);
-    //proyectoCtrl.delete({        name: "Mercadona"    });
-    //var lista_ofertas = await proyectoCtrl.list();
-    //console.log("AQUI VIENE LA LISTA");
-    /**/
-    //res.locals.ofertas = ofertitas;
     var proyecto = await Oferta.findOne({
         proyecto_id: proyectoid,
         nombre_oferta: nombre_ofertas
@@ -176,32 +138,21 @@ exports.desaplicaroferta = async (req, res, next) => {
                 console.log("se ha eliminado de los aplicados");
                 proyecto.aplicados.splice(i, 1);
             }
-
         }
-        console.log("PROYECTO APLICADOOOOS!");
-        console.log(proyecto.aplicados);
         let doc = await Oferta.findOneAndUpdate(filter, proyecto, {
             new: true
         });
-        console.log(doc);
         res.locals.mensaje = "Se ha eliminado la aplicacion a esta oferta correctamente!";
-
         //if(req.isAPI) res.json(proyecto)
         next();
     }
 
 };
 
+//ESTA FUNCION LISTA LAS OFERTAS EN LAS QUE EL USUARIO EN SESSION ESTA INSCRITO
 exports.listAplicaciones = async (req, res, next) => {
     var aplicaciones = [];
-    console.log("listAplicaciones");
     res.locals.user = req.session.user;
-
-    //proyectoCtrl.delete({        name: "Mercadona"    });
-    //var lista_ofertas = await proyectoCtrl.list();
-    //console.log("AQUI VIENE LA LISTA");
-    /**/
-    //res.locals.ofertas = ofertitas;
     var proyecto = await Oferta.find({});
     if (!proyecto) {
         res.render('gestionarofertas', {
@@ -221,8 +172,6 @@ exports.listAplicaciones = async (req, res, next) => {
                     });
                 }
             })
-
-
         });
         if (!aplicaciones) {
             aplicaciones = true;
@@ -230,24 +179,17 @@ exports.listAplicaciones = async (req, res, next) => {
         } else {
             req.aplicaciones = aplicaciones;
         }
-
-        //if(req.isAPI) res.json(proyecto)
         next();
     }
 
 };
-
+//APLICACION PARA GESTIONAR LOS CANDIDATOS
 exports.gestionarcandidatos = async (req, res, next) => {
     console.log("gestionarcandidatos");
     res.locals.user = req.session.user;
     var proyectoidynombre = req.params.proyectoidynombre;
     var proyectoid = proyectoidynombre.split("lllllll")[0];
     var nombre_ofertas = proyectoidynombre.split("lllllll")[1];
-    //proyectoCtrl.delete({        name: "Mercadona"    });
-    //var lista_ofertas = await proyectoCtrl.list();
-    //console.log("AQUI VIENE LA LISTA");
-    /**/
-    //res.locals.ofertas = ofertitas;
     var proyecto = await Oferta.findOne({
         proyecto_id: proyectoid,
         nombre_oferta: nombre_ofertas
@@ -259,22 +201,14 @@ exports.gestionarcandidatos = async (req, res, next) => {
             error: "No se ha podido gestionar la oferta"
         });
     } else {
-        //req.session.aplicados = [];
         var ofertitas = {
             nombre_proyecto: proyecto.nombre_proyecto,
             nombre_oferta: proyecto.nombre_oferta,
             proyecto_id: proyecto.proyecto_id,
         };
         req.oferta = ofertitas;
-        /*if (!(req.session.currentIndice)) {
-            req.session.currentIndice = 0;
-        }
-        for (var i = 0; i < proyecto.aplicados.length; i++) {
-            req.session.aplicados[i].nickname = proyecto.aplicados[i].nickname;
-        }*/
         var ofertantes = [];
         proyecto.aplicados.forEach(async function (currentValue, index, array) {
-            console.log("Llega aqui");
             var candidato = await User.findOne({
                 nickname: currentValue.nickname
             });
@@ -304,55 +238,20 @@ exports.gestionarcandidatos = async (req, res, next) => {
                     phone: candidato.phone,
                     estado: currentValue.estado
                 }
-                console.log(ofertantes);
-
             }
-
-
-
         });
-        //proyecto.aplicados.forEach()
-        /*var candidatos = await User.findOne({
-            nickname: req.session.aplicados[req.session.currentIndice].nickname
-        });
-        var perfil = await Perfil.findOne({
-            nickname: req.session.aplicados[req.session.currentIndice].nickname
-        });
-        if (!candidato) {
-            res.render('gestionarofertas', {
-                layout: 'layout',
-                template: 'home-template',
-                error: "No se ha podido encontrar el candidato"
-            });
-        } else {
-            var user = {
-                nickname: candidato.nickname,
-                name: candidato.name,
-                email: candidato.email,
-                phone: candidato.phone,
-                role: candidato.role,
-                location: "Barcelona"
-            }
-            console.log(user);
-            req.candidato = user;
-        }
-        //if(req.isAPI) res.json(proyecto)*/
         req.candidatos = ofertantes;
         next();
     }
 
 };
+
+//FUNCION QUE ACTUALIZA EL ESTADO DE UN APLICANTE EN UNA OFERTA
 exports.actualizarestado = async (req, res, next) => {
-    console.log("actualiarestado");
     res.locals.user = req.session.user;
     var proyectoidynombre = req.params.proyectoidynombre;
     var proyectoid = proyectoidynombre.split("lllllll")[0];
     var nombre_ofertas = proyectoidynombre.split("lllllll")[1];
-    //proyectoCtrl.delete({        name: "Mercadona"    });
-    //var lista_ofertas = await proyectoCtrl.list();
-    //console.log("AQUI VIENE LA LISTA");
-    /**/
-    //res.locals.ofertas = ofertitas;
     var proyecto = await Oferta.findOne({
         proyecto_id: proyectoid,
         nombre_oferta: nombre_ofertas
@@ -385,37 +284,12 @@ exports.actualizarestado = async (req, res, next) => {
     
             }
         });
-        //proyecto.aplicados.forEach()
-        /*var candidatos = await User.findOne({
-            nickname: req.session.aplicados[req.session.currentIndice].nickname
-        });
-        var perfil = await Perfil.findOne({
-            nickname: req.session.aplicados[req.session.currentIndice].nickname
-        });
-        if (!candidato) {
-            res.render('gestionarofertas', {
-                layout: 'layout',
-                template: 'home-template',
-                error: "No se ha podido encontrar el candidato"
-            });
-        } else {
-            var user = {
-                nickname: candidato.nickname,
-                name: candidato.name,
-                email: candidato.email,
-                phone: candidato.phone,
-                role: candidato.role,
-                location: "Barcelona"
-            }
-            console.log(user);
-            req.candidato = user;
-        }
-        //if(req.isAPI) res.json(proyecto)*/
         next();
     }
 
 };
 
+//FUNCION QUE ACTUALIA UNA OFERTA
 exports.updateone = async (req, res, next) => {
     var proyectoid = req.params.proyectoid;
     var nombre_oferta = req.params.nombreoferta;
@@ -428,11 +302,6 @@ exports.updateone = async (req, res, next) => {
         descripcion: req.body.descripcion,
     };
     console.log(req.body.sueldo);
-    //proyectoCtrl.delete({        name: "Mercadona"    });
-    //var lista_ofertas = await proyectoCtrl.list();
-    //console.log("AQUI VIENE LA LISTA");
-    /**/
-    //res.locals.ofertas = ofertitas;
     await Oferta.findOneAndUpdate({
         proyecto_id: proyectoid,
         nombre_oferta: nombre_oferta
@@ -446,16 +315,13 @@ exports.updateone = async (req, res, next) => {
     //if(req.isAPI) res.json(proyecto)
     next();
 };
+
+//FUNCION QUE ENCUENTRA LA OFERTA EN CUESTION
 exports.findOne = async (req, res, next) => {
     console.log("find one");
     var nombre_oferta = req.params.nombreoferta;
     var proyecto_id = req.params.proyectoid;
     res.locals.user = req.session.user;
-    //proyectoCtrl.delete({        name: "Mercadona"    });
-    //var lista_ofertas = await proyectoCtrl.list();
-    //console.log("AQUI VIENE LA LISTA");
-    /**/
-    //res.locals.ofertas = ofertitas;
     var oferta = await Oferta.findOne({
         nombre_oferta: nombre_oferta,
         proyecto_id: proyecto_id
@@ -484,6 +350,8 @@ exports.findOne = async (req, res, next) => {
     //if(req.isAPI) res.json(proyecto)
     next();
 };
+
+//FUNCION QUE DEVUELVE TODAS LAS OFERTAS DE UN PROYECTO
 exports.listproyecto = async (req, res, next) => {
     var ofertitas = [];
     res.locals.user = req.session.user;
@@ -542,24 +410,16 @@ exports.listproyecto = async (req, res, next) => {
                 yo_aplicado: aplicado
             }
         });
-        console.log("Lo que viene de la base de datos "),
-            console.log(ofertitas);
         req.ofertas = ofertitas;
-        //if(req.isAPI) res.json(proyecto)
         next();
-        //res.render('gestionarofertas', { layout: 'layout', template: 'home-template', ofertas: req.ofertas, proyecto: req.proyecto });
     }
 };
 
+//FUNCION QUE LISTA LAS OFERTAS PROPIAS
 exports.listOwn = async (req, res, next) => {
     console.log("list own");
     var ofertitas = [];
     res.locals.user = req.session.user;
-    //proyectoCtrl.delete({        name: "Mercadona"    });
-    //var lista_ofertas = await proyectoCtrl.list();
-    //console.log("AQUI VIENE LA LISTA");
-    /**/
-    //res.locals.ofertas = ofertitas;
     var proyecto = await Proyecto.find({
         nombre_empresa: req.session.user.name
     });
@@ -578,15 +438,14 @@ exports.listOwn = async (req, res, next) => {
         }
     });
     req.proyecto = ofertitas;
-    console.log(proyecto);
     //if(req.isAPI) res.json(proyecto)
     next();
 };
+
 exports.edit = async (req) => {
     var res = await req.save((err, res) => {
         if (err) console.log(err);
         console.log("INSERTADO EN LA DB");
-
     });
     return res;
 
@@ -594,8 +453,6 @@ exports.edit = async (req) => {
 
 exports.delete = async (req) => {
     var res = await Proyecto.deleteOne(req);
-
-
     return res;
 
 };

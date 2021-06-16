@@ -3,19 +3,8 @@ var Perfil = require('../models/Perfil.js');
 const path = require("path");
 var User = require('../models/userModel.js');
 
-/**
- * Function check if user and passwor exists in the database and do the login
- * if the validation is correct we create the query with the username and password
- * collected from the form and we make the login
- * we validate the fields user and password, if the validation returns errors,
- * we redirect to the login page with an error message
- */
 
-
-
-/**
- * Function to delete the user and role variable session and redirect to the home
- */
+//FUNCION QUE CARGA EL PERFIL EN CASO DE TENERLO
 exports.listprofile = async function (req, res, next) {
     var perfil = await Perfil.findOne({
         nickname: req.session.user.nickname
@@ -36,6 +25,8 @@ exports.listprofile = async function (req, res, next) {
         next();
     }
 };
+
+//FUNCION QUE LISTA LOS PERFILES DE LOS CANDIDATOS
 exports.listprofiles = async function (req, res, next) {
     var perfil = await Perfil.findOne({
         nickname: req.params.nickname
@@ -75,15 +66,8 @@ exports.listprofiles = async function (req, res, next) {
     req.
     next();
 };
-//
-/**
- * Function that receives all fields from the registration form,
- * validates them and saves them in the database.
- * we validate the fields with the function valiate, if the validation returns errors,
- * we redirect to the login page with an error message 
- * if the validation is correct we create a new user object and the 
- * we insert in the database
- */
+
+//FUNCION QUE CREA O ACTUALIZA LOS PERFILES CON LA INFORMACION DE LAS VISTAS
 exports.profile = async function (req, res, next) {
     var fotito = true;
     var usertocreate;
@@ -94,17 +78,6 @@ exports.profile = async function (req, res, next) {
     } else {
         console.log("llega foto");
         var profileFile = req.files.profileFile;
-        //var outputFile = req.session.user.nickname + profileFile.name;
-        /*sharp(profileFile).resize({ height: 254, width: 254 }).toFile(outputFile)
-            .then(function (newFileInfo) {
-                // newFileInfo holds the output file properties
-                console.log("Success")
-            })
-            .catch(function (err) {
-                console.log("Error occured resizing");
-                return res.status(500).send(err);
-            });*/
-        //(path.join(path.dirname('/app/server/src/'), '/src/public/images/') + file.name)
         var uploadPath = '/app/app/views/images/' + req.session.user.nickname +profileFile.name;
         await profileFile.mv(uploadPath, function (err) {
             if (err) {
@@ -165,24 +138,8 @@ exports.profile = async function (req, res, next) {
     });
 };
 
-
-//hay que hacer la imagen importandola y guardandola en public
-//si nos flipamos, podemos pedir el CV, y poder acceder a el desde la vista
-//tambien importar los proyectos
-
-
-
-//create a new user object
-
-/**
- * Function that removes a user from the user's name.
- * first validates the name and if the validation is correct it deletes it.
- * of the database and returns a message of success, but returns us 
- * error when deleting user. And if the user does not exist also we 
- * sent a message
- */
+//DEMAS FUNCIONES
 exports.delete = function (req, res) {
-    //console.log(req.body.namedelete);
     res.locals.role = req.session.role;
     req.checkBody('namedelete', 'Name is required').notEmpty();
     const errors = req.validationErrors();
@@ -197,9 +154,6 @@ exports.delete = function (req, res) {
         User.remove({
             name: req.body.namedelete
         }, function (err, user) {
-            //console.log(user);
-            //console.log(user.deletedCount);
-
             if (err || user.deletedCount === 0) {
                 res.render('delete', {
                     layout: 'layout',
@@ -217,12 +171,7 @@ exports.delete = function (req, res) {
         });
     }
 }
-/**
- * Function that updates the data of a user, we collect the fields of the form,
- * we validate these fields and if the validation is correct we update the data
- * if he doesn't send us an error message.
- * If the user does not exist gives us an error
- */
+
 exports.update = function (req, res) {
 
 
@@ -246,21 +195,3 @@ exports.update = function (req, res) {
     });
 };
 
-/**
- * Funtion validate the data of a user
- */
-function validate(req) {
-    //validation of inputs
-    req.checkBody('fullname', 'Name is required').notEmpty();
-    req.checkBody('email', 'Email is required').notEmpty();
-    req.checkBody('email', 'Please enter a valid email').isEmail();
-    req.checkBody('password', 'Invalid password').isLength({
-        min: 6
-    })
-    password2 = req.body.password2;
-    req.checkBody('password', 'Passwords must match').matches(password2);
-    req.checkBody('phone', 'Phone is invalid').isMobilePhone(['es-ES']);
-
-    const errors = req.validationErrors();
-    return errors;
-}
